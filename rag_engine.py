@@ -42,6 +42,12 @@ from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_community.vectorstores import Chroma
 
 try:
+    from langchain_nvidia_ai_endpoints import NVIDIAEmbeddings, ChatNVIDIA
+except ImportError:
+    NVIDIAEmbeddings = None
+    ChatNVIDIA = None
+
+try:
     from langchain_core.documents import Document as LangChainDocument
 except ImportError:
     try:
@@ -474,21 +480,26 @@ class MotorRAG:
             emb_model = modelo_embedding or "text-embedding-3-small"
 
         self.modelo_embedding = emb_model
-        emb_kwargs = {
-            "model": self.modelo_embedding,
-            "api_key": emb_key,
-        }
-        if emb_base:
-            emb_kwargs["base_url"] = emb_base
-
+        
         try:
-            self.embeddings = OpenAIEmbeddings(**emb_kwargs)
+            if NVIDIAEmbeddings and provider in ["nvidia", "nvidia.build", "build.nvidia.com"]:
+                self.embeddings = NVIDIAEmbeddings(
+                    model=self.modelo_embedding,
+                    nvidia_api_key=emb_key,
+                )
+            else:
+                emb_kwargs = {
+                    "model": self.modelo_embedding,
+                    "api_key": emb_key,
+                }
+                if emb_base:
+                    emb_kwargs["base_url"] = emb_base
+                self.embeddings = OpenAIEmbeddings(**emb_kwargs)
         except Exception as e:
-            print(f"Advertencia al instanciar embeddings ({e}). Usando fallback...")
+            print(f"Advertencia al instanciar embeddings ({e}). Usando fallback genérico...")
             self.embeddings = OpenAIEmbeddings(
-                model="nvidia/nv-embedqa-e5-v5",
-                api_key=nvidia_key or active_api_key,
-                base_url="https://integrate.api.nvidia.com/v1"
+                model="text-embedding-3-small",
+                api_key=active_api_key
             )
 
         self.vectorstore: Optional[Chroma] = None
