@@ -3,7 +3,8 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.30%2B-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-0.2%2B-121212?style=for-the-badge&logo=chainlink&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white)
+![NVIDIA Build](https://img.shields.io/badge/NVIDIA_Build-z.ai%2Fglm--5.2-76B900?style=for-the-badge&logo=nvidia&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-Compatible-412991?style=for-the-badge&logo=openai&logoColor=white)
 
 Agente de inteligencia artificial que responde preguntas de colaboradores de una empresa basándose de manera rigurosa y precisa en sus documentos internos institucionales mediante **RAG (Retrieval-Augmented Generation)**.
 
@@ -49,8 +50,8 @@ El agente es capaz de extraer y procesar texto de los siguientes formatos:
 
 - **Interfaz de Usuario**: [Streamlit](https://streamlit.io/)
 - **Orquestador RAG**: [LangChain](https://www.langchain.com/)
-- **LLM**: Multi-proveedor (OpenAI `gpt-4o-mini`, NVIDIA Build `z.ai/glm-5.2` / `meta/llama-3.1-70b-instruct`, endpoints compatibles con OpenAI)
-- **Embeddings**: OpenAI (`text-embedding-3-small`) / NVIDIA Embeddings
+- **LLM Principal**: [NVIDIA Build](https://build.nvidia.com/) (`z.ai/glm-5.2`) mediante endpoint compatible con OpenAI (con soporte secundario para `gpt-4o-mini` y modelos custom).
+- **Embeddings**: OpenAI (`text-embedding-3-small`) / NVIDIA Embeddings (`nvidia/nv-embedqa-e5-v5`)
 - **Vector Database**: [ChromaDB](https://www.trychroma.com/)
 - **Extracción de Documentos**: `pypdf`, `python-docx`, `openpyxl`, `python-pptx`, `beautifulsoup4`, `pandas`
 
@@ -112,7 +113,7 @@ Pregunta del usuario → Embedding → Búsqueda por similitud → Top-k chunks
 
 ### 1. Requisitos Previos
 - Python 3.10 o superior.
-- Una clave de API activa de OpenAI (`OPENAI_API_KEY`).
+- Una clave de API activa de **NVIDIA Build** (`NVIDIA_API_KEY`) o de **OpenAI** (`OPENAI_API_KEY`).
 
 ### 2. Clonar el Repositorio e Instalar Dependencias
 ```bash
@@ -122,13 +123,16 @@ pip install -r requirements.txt
 ```
 
 ### 3. Configurar Variables de Entorno
-Copia el archivo de ejemplo `.env.example` a `.env` y agrega tu clave de OpenAI:
+Copia el archivo de ejemplo `.env.example` a `.env` y agrega tu clave de NVIDIA:
 ```bash
 cp .env.example .env
 ```
 Edita `.env`:
 ```env
-OPENAI_API_KEY=sk-tu-api-key-aqui
+NVIDIA_API_KEY=nvapi-tu-api-key-aqui
+LLM_PROVIDER=nvidia
+LLM_BASE_URL=https://integrate.api.nvidia.com/v1
+LLM_MODEL=z.ai/glm-5.2
 ```
 
 ### 4. Iniciar la Aplicación
@@ -143,9 +147,12 @@ streamlit run app.py
 1. Sube tu repositorio a **GitHub**.
 2. Ingresa a [share.streamlit.io](https://share.streamlit.io) e inicia sesión.
 3. Haz clic en **"New app"** y conecta tu repositorio.
-4. En la sección **Settings → Secrets**, agrega tu clave de API de OpenAI:
+4. En la sección **Settings → Secrets**, agrega tu clave de API de NVIDIA:
    ```toml
-   OPENAI_API_KEY = "sk-tu-key-aqui"
+   NVIDIA_API_KEY = "nvapi-tu-key-aqui"
+   LLM_PROVIDER = "nvidia"
+   LLM_BASE_URL = "https://integrate.api.nvidia.com/v1"
+   LLM_MODEL = "z.ai/glm-5.2"
    ```
 5. Haz clic en **Deploy**. El despliegue se realizará de forma automática.
 
