@@ -1,0 +1,756 @@
+{
+  "corpus_id": "nexusflow-rh-demo-es",
+  "name": "NexusFlow - Recursos Humanos",
+  "version": "1.1",
+  "locale": "es-CL",
+  "fictional": true,
+  "legal_notice": "Material demostrativo; adaptar a contratos y normativa aplicable.",
+  "chunks": [
+    {
+      "chunk_id": "RH-ONB-001",
+      "document_id": "RH-ONBOARDING-ES",
+      "document_type": "employee_onboarding",
+      "department": "rh",
+      "title": "Bienvenida",
+      "text": "NexusFlow Technologies es una empresa ficticia que desarrolla una plataforma SaaS de gestión de proyectos. El objetivo de la incorporación es que cada persona comprenda el producto, su función, las formas de colaboración y los canales de ayuda.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-ONB-002",
+      "document_id": "RH-ONBOARDING-ES",
+      "document_type": "employee_onboarding",
+      "department": "rh",
+      "title": "Principios de trabajo",
+      "text": "Trabajamos con claridad, responsabilidad, aprendizaje continuo, seguridad y respeto. Las decisiones relevantes deben quedar documentadas en el proyecto o repositorio correspondiente para reducir dependencias de información informal.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-ONB-003",
+      "document_id": "RH-ONBOARDING-ES",
+      "document_type": "employee_onboarding",
+      "department": "rh",
+      "title": "Primera semana",
+      "text": "La persona debe completar su perfil, configurar autenticación multifactor, revisar políticas, conocer a su responsable, acceder a los espacios necesarios y completar una introducción al producto. Los accesos se conceden según función y mínimo privilegio.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-ONB-004",
+      "document_id": "RH-ONBOARDING-ES",
+      "document_type": "employee_onboarding",
+      "department": "rh",
+      "title": "Plan de 30 días",
+      "text": "Durante los primeros 30 días se acuerdan objetivos iniciales, entregables, formación necesaria y una revisión de integración. El plan se adapta al cargo y no constituye por sí mismo una evaluación de desempeño.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-ONB-005",
+      "document_id": "RH-ONBOARDING-ES",
+      "document_type": "employee_onboarding",
+      "department": "rh",
+      "title": "Herramientas y seguridad",
+      "text": "Las cuentas, equipos y credenciales son de uso laboral autorizado. No se deben compartir contraseñas, códigos de autenticación ni tokens. Los incidentes o accesos sospechosos deben comunicarse inmediatamente por el canal interno definido.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-ONB-006",
+      "document_id": "RH-ONBOARDING-ES",
+      "document_type": "employee_onboarding",
+      "department": "rh",
+      "title": "Comunicación y colaboración",
+      "text": "La comunicación asíncrona debe incluir contexto, decisión solicitada, responsable y fecha objetivo. Las reuniones deben tener propósito y resultados claros. La información sensible debe mantenerse en canales autorizados.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-ONB-007",
+      "document_id": "RH-ONBOARDING-ES",
+      "document_type": "employee_onboarding",
+      "department": "rh",
+      "title": "Desarrollo y acompañamiento",
+      "text": "Cada persona puede acordar objetivos de aprendizaje con su responsable. Recursos Humanos facilita orientación sobre incorporación, políticas y beneficios definidos en el contrato o documentación vigente.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-ONB-008",
+      "document_id": "RH-ONBOARDING-ES",
+      "document_type": "employee_onboarding",
+      "department": "rh",
+      "title": "Salida o cambio de función",
+      "text": "Ante una salida o cambio de función se deben transferir responsabilidades, devolver activos, cerrar o ajustar accesos y preservar la documentación necesaria. Recursos Humanos y TI coordinan las actividades aplicables.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-001",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Objeto y alcance",
+      "text": "Esta política ficticia establece criterios generales para trabajo remoto o híbrido cuando el cargo y el acuerdo laboral lo permitan. No modifica por sí sola el contrato de trabajo ni crea un derecho permanente a una modalidad específica.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-002",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Acuerdo de modalidad",
+      "text": "La modalidad, lugar habitual, jornada y disponibilidad se documentan por el canal correspondiente. Cualquier cambio debe ser coordinado con la persona responsable y Recursos Humanos.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-003",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Disponibilidad y resultados",
+      "text": "Cada equipo define ventanas de coordinación compatibles con su operación. El trabajo se organiza por objetivos y entregables, respetando jornada, descansos y desconexión conforme al contrato y la normativa aplicable.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-004",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Lugar y condiciones",
+      "text": "La persona debe procurar un espacio seguro, razonablemente privado y adecuado para sus funciones. Las necesidades de accesibilidad o adaptación se gestionan confidencialmente con Recursos Humanos.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-005",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Equipos y gastos",
+      "text": "Los equipos, servicios y reembolsos se rigen por contrato, anexos y políticas vigentes. Los activos entregados deben cuidarse, mantenerse actualizados y devolverse cuando corresponda.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-006",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Seguridad de la información",
+      "text": "Se deben usar dispositivos y conexiones autorizados, bloqueo de pantalla, autenticación multifactor y almacenamiento corporativo. Está prohibido compartir credenciales o trabajar con información sensible en condiciones que permitan acceso no autorizado.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-007",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Reuniones y documentación",
+      "text": "Las reuniones remotas deben tener propósito, participantes necesarios y acuerdos registrados. Las decisiones y entregables se documentan en NexusFlow o en el sistema corporativo definido.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-008",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Incidentes",
+      "text": "La pérdida de equipo, sospecha de acceso, envío erróneo o exposición de información debe reportarse inmediatamente por los canales internos de seguridad y soporte.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-REM-009",
+      "document_id": "RH-REMOTE-WORK-ES",
+      "document_type": "remote_work_policy",
+      "department": "rh",
+      "title": "Revisión de la política",
+      "text": "Recursos Humanos puede revisar esta política junto con las áreas responsables. Los cambios materiales se comunican por canales corporativos y se registran mediante versión y fecha de vigencia.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-001",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Dónde encuentro mi lista de incorporación?",
+      "text": "La lista se encuentra en el Manual de bienvenida, sección RH-ONB-003, y debe adaptarse al cargo junto con la persona responsable.",
+      "related_ids": [
+        "RH-ONB-003"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-002",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Qué hago si me falta un acceso?",
+      "text": "Solicita el acceso por el canal interno definido, indicando sistema, motivo laboral y responsable que lo aprueba. Los permisos se conceden según función y mínimo privilegio.",
+      "related_ids": [
+        "RH-ONB-003",
+        "RH-ONB-005"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-003",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Puedo cambiar mi modalidad de trabajo?",
+      "text": "Los cambios de modalidad deben coordinarse con la persona responsable y Recursos Humanos y documentarse por el canal correspondiente.",
+      "related_ids": [
+        "RH-REM-002"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-004",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Qué hago si pierdo un equipo?",
+      "text": "Reporta inmediatamente la pérdida por los canales internos de seguridad y soporte. No publiques contraseñas, tokens ni información sensible en el ticket.",
+      "related_ids": [
+        "RH-REM-008",
+        "RH-ONB-005"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-005",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Dónde registro acuerdos de una reunión?",
+      "text": "Registra decisiones, responsables y fechas objetivo en NexusFlow o en el sistema corporativo definido por el equipo.",
+      "related_ids": [
+        "RH-REM-007",
+        "RH-ONB-006"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-006",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Cómo solicito formación?",
+      "text": "Acuerda la necesidad y el objetivo de aprendizaje con tu responsable y utiliza el proceso interno vigente para su revisión.",
+      "related_ids": [
+        "RH-ONB-007"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-007",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Cómo actualizo información personal?",
+      "text": "Utiliza el canal seguro de Recursos Humanos definido por la organización. No envíes documentos personales por canales públicos o no autorizados.",
+      "related_ids": [
+        "PRIV-009"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-008",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Qué ocurre con accesos y activos al finalizar una relación laboral?",
+      "text": "Recursos Humanos y TI coordinan transferencia de responsabilidades, devolución de activos y cierre o ajuste de accesos.",
+      "related_ids": [
+        "RH-ONB-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-009",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Cómo reporto una posible infracción al código de conducta?",
+      "text": "Usa el canal confidencial definido por la organización. El reporte debe describir hechos, fechas y evidencia disponible sin difundir información innecesaria.",
+      "related_ids": [
+        "RH-COND-006"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-FAQ-010",
+      "document_id": "RH-FAQ-ES",
+      "document_type": "hr_faq",
+      "department": "rh",
+      "title": "¿Qué documento prevalece si hay diferencias?",
+      "text": "El contrato, anexos y políticas oficialmente vigentes prevalecen sobre estos documentos demostrativos.",
+      "related_ids": [
+        "RH-COND-001"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-001",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Alcance y prevalencia",
+      "text": "Este código orienta la conducta profesional de personas empleadas, proveedoras y colaboradoras de NexusFlow Technologies. Los contratos, anexos, políticas oficiales y normas aplicables prevalecen ante cualquier diferencia.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-002",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Respeto profesional",
+      "text": "Las interacciones deben mantener un trato digno, profesional y libre de acoso, intimidación o represalias. Los desacuerdos deben centrarse en hechos, decisiones y trabajo, no en ataques personales.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-003",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Inclusión y oportunidades",
+      "text": "Las decisiones laborales deben basarse en requisitos del cargo, experiencia, capacidades y criterios legítimos de negocio. La organización debe evitar discriminación y facilitar canales para solicitar adaptaciones mediante un proceso confidencial.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-004",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Protección de información",
+      "text": "La información de clientes, personal, producto y negocio debe utilizarse únicamente para fines autorizados. No deben compartirse credenciales, tokens, documentos personales ni información confidencial fuera de los sistemas y destinatarios permitidos.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-005",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Conflictos de interés",
+      "text": "Las personas deben comunicar situaciones personales, financieras o profesionales que puedan afectar su objetividad. Recursos Humanos o el área designada determinará las medidas de gestión aplicables.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-006",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Reportes y no represalias",
+      "text": "Las posibles infracciones deben comunicarse mediante los canales confidenciales definidos por la organización. Los reportes deben realizarse de buena fe y describir los hechos disponibles. No se permiten represalias contra quien reporte o participe en una revisión de buena fe.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-007",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Uso de activos",
+      "text": "Los equipos, cuentas, licencias y datos corporativos deben utilizarse de forma responsable y para fines autorizados. La instalación de software, conexión de servicios y extracción de información debe respetar los controles definidos.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-008",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Registros y decisiones",
+      "text": "Las aprobaciones, compromisos y decisiones relevantes deben registrarse en los sistemas corporativos apropiados. No deben alterarse, ocultarse o eliminarse registros para inducir a error o evitar controles.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "RH-COND-009",
+      "document_id": "RH-CODE-CONDUCT-ES",
+      "document_type": "code_of_conduct",
+      "department": "rh",
+      "title": "Aplicación y revisión",
+      "text": "La revisión de un caso debe considerar hechos verificables, confidencialidad, posibilidad de respuesta y políticas vigentes. Las medidas aplicables deben ser determinadas por las funciones autorizadas y conforme al marco contractual y legal correspondiente.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "ROLE-PROD-01",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "role_catalog",
+      "department": "rh",
+      "title": "Product Manager",
+      "text": "Producto. Propósito: Definir problemas, prioridades y resultados del producto. Competencias: Descubrimiento; priorización; comunicación; métricas. Nivel: Profesional.",
+      "related_ids": [
+        "KB-001",
+        "KB-004"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "ROLE-ENG-01",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "role_catalog",
+      "department": "rh",
+      "title": "Software Engineer",
+      "text": "Tecnología. Propósito: Diseñar, construir y mantener capacidades de NexusFlow. Competencias: Programación; pruebas; seguridad; colaboración. Nivel: Profesional.",
+      "related_ids": [
+        "KB-008",
+        "KB-009"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "ROLE-SUP-01",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "role_catalog",
+      "department": "rh",
+      "title": "Customer Support Specialist",
+      "text": "Soporte. Propósito: Resolver consultas y registrar problemas reproducibles. Competencias: Comunicación; diagnóstico; documentación; empatía profesional. Nivel: Profesional.",
+      "related_ids": [
+        "FAQ-001",
+        "FAQ-014"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "ROLE-CS-01",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "role_catalog",
+      "department": "rh",
+      "title": "Customer Success Manager",
+      "text": "Éxito del cliente. Propósito: Acompañar adopción y resultados de clientes. Competencias: Facilitación; análisis; planificación; comunicación. Nivel: Profesional.",
+      "related_ids": [
+        "KB-002",
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "ROLE-MKT-01",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "role_catalog",
+      "department": "rh",
+      "title": "Content Marketing Specialist",
+      "text": "Marketing. Propósito: Crear contenido claro y coherente sobre el producto. Competencias: Redacción; investigación; campañas; analítica. Nivel: Profesional.",
+      "related_ids": [
+        "PRODUCT-OVERVIEW-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "ROLE-FIN-01",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "role_catalog",
+      "department": "rh",
+      "title": "Financial Operations Analyst",
+      "text": "Finanzas. Propósito: Apoyar facturación, conciliación y control comercial. Competencias: Análisis; control; precisión; confidencialidad. Nivel: Profesional.",
+      "related_ids": [
+        "PRICING-ES",
+        "TERMS-006"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "ROLE-HR-01",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "role_catalog",
+      "department": "rh",
+      "title": "People Operations Specialist",
+      "text": "Recursos Humanos. Propósito: Coordinar incorporación, políticas y experiencia interna. Competencias: Organización; comunicación; confidencialidad; servicio. Nivel: Profesional.",
+      "related_ids": [
+        "RH-ONBOARDING-ES",
+        "RH-REMOTE-WORK-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "ROLE-SEC-01",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "role_catalog",
+      "department": "rh",
+      "title": "Security Analyst",
+      "text": "Seguridad. Propósito: Monitorear controles, riesgos e incidentes de seguridad. Competencias: Riesgo; respuesta; auditoría; comunicación. Nivel: Especialista.",
+      "related_ids": [
+        "KB-009",
+        "PRIV-010"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "COMP-001",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "competency_catalog",
+      "department": "rh",
+      "title": "Comunicación clara",
+      "text": "Transmite contexto, decisión solicitada y próximos pasos. Evidencia de ejemplo: Registro de acuerdos y documentación comprensible.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "COMP-002",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "competency_catalog",
+      "department": "rh",
+      "title": "Colaboración",
+      "text": "Coordina trabajo, comparte información y solicita apoyo oportunamente. Evidencia de ejemplo: Dependencias y responsables visibles en el proyecto.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "COMP-003",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "competency_catalog",
+      "department": "rh",
+      "title": "Orientación al cliente",
+      "text": "Comprende necesidades y conecta soluciones con resultados. Evidencia de ejemplo: Consulta documentada y seguimiento acordado.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "COMP-004",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "competency_catalog",
+      "department": "rh",
+      "title": "Seguridad y confidencialidad",
+      "text": "Protege credenciales, accesos e información sensible. Evidencia de ejemplo: Uso de MFA, mínimo privilegio y reporte de incidentes.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "COMP-005",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "competency_catalog",
+      "department": "rh",
+      "title": "Aprendizaje continuo",
+      "text": "Incorpora conocimiento y mejora prácticas de trabajo. Evidencia de ejemplo: Plan de aprendizaje y aplicación documentada.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "COMP-006",
+      "document_id": "RH-ROLES-ES",
+      "document_type": "competency_catalog",
+      "department": "rh",
+      "title": "Ejecución responsable",
+      "text": "Cumple compromisos o comunica riesgos y cambios. Evidencia de ejemplo: Entregables con responsable, estado y fecha objetivo.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.1",
+        "effective_date": "2026-07-21"
+      }
+    }
+  ]
+}

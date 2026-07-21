@@ -1,0 +1,42 @@
+{
+  "package": "NexusFlow_RH_v1.1",
+  "department": "rh",
+  "version": "1.1",
+  "files": [
+    {
+      "path": "rh/09_Manual_Bienvenida_NexusFlow.pdf",
+      "bytes": 75953,
+      "sha256": "74d6bbe43e6c422d3d0737cf7b0047943267005cf60a91101dad5a4578dc7df2"
+    },
+    {
+      "path": "rh/10_Politica_Trabajo_Remoto_NexusFlow.docx",
+      "bytes": 39006,
+      "sha256": "c81c75d51821aa20c90669555fd08b65a74e5264d2286dd7022c1590b512d480"
+    },
+    {
+      "path": "rh/11_Matriz_Cargos_Competencias_NexusFlow.xlsx",
+      "bytes": 8457,
+      "sha256": "e2f0c38295ea7adf6dda770af0ca9ba9cca3fcadabf404c1a3369dcf5b7ae78f"
+    },
+    {
+      "path": "rh/12_FAQ_Recursos_Humanos_NexusFlow.csv",
+      "bytes": 2533,
+      "sha256": "506bdae30382aa4ef7987e4b445131189ec53e4825dc1922fdcf787576104f99"
+    },
+    {
+      "path": "rh/13_Codigo_Conducta_NexusFlow.md",
+      "bytes": 3015,
+      "sha256": "210fdfb292a8f231fc6953bacd23d7c40bbca15d863fafdaa2b37d1299016586"
+    },
+    {
+      "path": "rh/14_Corpus_RH_NexusFlow.json",
+      "bytes": 28197,
+      "sha256": "13116b6b88fc946a691ee33290c3da32fae3ff9a39b5e681333eb5f2067d2594"
+    },
+    {
+      "path": "rh/README.md",
+      "bytes": 973,
+      "sha256": "47e195ba1a69b4c217f4e29f0b27356463418e7b328b7072df10cb1babb3b62e"
+    }
+  ]
+}
