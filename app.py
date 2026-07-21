@@ -25,7 +25,7 @@ from dotenv import load_dotenv
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
-from rag_engine import MotorRAG, EXTRACTORES
+from rag_engine import MotorRAG, EXTRACTORES, obtener_secret
 
 
 # ============================================================
@@ -118,26 +118,30 @@ with st.sidebar:
     
     # --- Configuración de Proveedor LLM (OpenAI / NVIDIA Build / Custom) ---
     with st.expander("🤖 Configuración del Proveedor IA (LLM)"):
+        nv_k = obtener_secret("NVIDIA_API_KEY")
+        oa_k = obtener_secret("OPENAI_API_KEY")
+        prov_env = obtener_secret("LLM_PROVIDER")
+        
         proveedor_sel = st.radio(
             "Proveedor LLM:",
             ["NVIDIA Build (build.nvidia.com)", "OpenAI", "Personalizado"],
-            index=0 if (os.getenv("NVIDIA_API_KEY") or os.getenv("LLM_PROVIDER") == "nvidia") else 1
+            index=0 if (nv_k or prov_env == "nvidia") else 1
         )
         
         if proveedor_sel == "NVIDIA Build (build.nvidia.com)":
-            def_key = os.getenv("NVIDIA_API_KEY", "")
+            def_key = nv_k or ""
             def_url = "https://integrate.api.nvidia.com/v1"
-            def_model = os.getenv("LLM_MODEL", "z.ai/glm-5.2")
+            def_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
             p_id = "nvidia"
         elif proveedor_sel == "Personalizado":
-            def_key = os.getenv("LLM_API_KEY", os.getenv("NVIDIA_API_KEY", ""))
-            def_url = os.getenv("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
-            def_model = os.getenv("LLM_MODEL", "z.ai/glm-5.2")
+            def_key = obtener_secret("LLM_API_KEY", nv_k or oa_k or "")
+            def_url = obtener_secret("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
+            def_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
             p_id = "custom"
         else:
-            def_key = os.getenv("OPENAI_API_KEY", "")
+            def_key = oa_k or ""
             def_url = ""
-            def_model = "gpt-4o-mini"
+            def_model = obtener_secret("LLM_MODEL", "gpt-4o-mini")
             p_id = "openai"
 
         api_key_val = st.text_input("API Key:", value=def_key, type="password", help="API Key de NVIDIA Build o OpenAI")

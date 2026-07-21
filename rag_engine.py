@@ -368,14 +368,32 @@ def crear_chunks(
     return documentos
 
 
+def obtener_secret(clave: str, valor_defecto: Optional[str] = None) -> Optional[str]:
+    """
+    Obtiene el valor de una clave probando en orden:
+    1. os.getenv(clave)
+    2. st.secrets[clave] (si está ejecutándose dentro de Streamlit)
+    3. valor_defecto
+    """
+    val = os.getenv(clave)
+    if val:
+        return val
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and clave in st.secrets:
+            return st.secrets[clave]
+    except Exception:
+        pass
+    return valor_defecto
+
+
 # ============================================================
-# 4. MOTOR RAG PRINCIPAL
+# CLASE PRINCIPAL: MOTOR RAG
 # ============================================================
 
 class MotorRAG:
     """
-    Orquesta todo el pipeline RAG:
-    ingesta de documentos → embeddings → vector store → consulta.
+    Clase principal que orquesta el pipeline RAG completo.
     
     Uso:
         motor = MotorRAG()
@@ -402,61 +420,69 @@ class MotorRAG:
         - OpenAI (gpt-4o-mini, text-embedding-3-small)
         - Cualquier endpoint compatible con la API de OpenAI
         """
-        # Determinar proveedor (prioridad: parámetro > env LLM_PROVIDER > autodetección por NVIDIA_API_KEY)
+        # Obtener claves probando en os.getenv y st.secrets
+        nvidia_key = obtener_secret("NVIDIA_API_KEY")
+        openai_key = obtener_secret("OPENAI_API_KEY")
+        llm_key = obtener_secret("LLM_API_KEY")
+
+        # Determinar proveedor (prioridad: parámetro > env/secrets LLM_PROVIDER > autodetección por NVIDIA_API_KEY)
         if not provider:
-            if os.getenv("NVIDIA_API_KEY") or os.getenv("LLM_PROVIDER") == "nvidia":
+            if nvidia_key or obtener_secret("LLM_PROVIDER") == "nvidia":
                 provider = "nvidia"
             else:
-                provider = os.getenv("LLM_PROVIDER", "openai")
+                provider = obtener_secret("LLM_PROVIDER", "openai")
         
         provider = provider.lower()
 
         # Configuración por defecto según el proveedor
         if provider in ["nvidia", "nvidia.build", "build.nvidia.com"]:
             default_base_url = "https://integrate.api.nvidia.com/v1"
-            default_api_key = os.getenv("NVIDIA_API_KEY") or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")
-            default_model = "z.ai/glm-5.2"
-            default_embedding_model = "text-embedding-3-small"
+            default_api_key = nvidia_key or llm_key or openai_key
+            default_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
+            default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
         elif provider == "custom":
-            default_base_url = os.getenv("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
-            default_api_key = os.getenv("LLM_API_KEY") or os.getenv("NVIDIA_API_KEY") or os.getenv("OPENAI_API_KEY")
-            default_model = os.getenv("LLM_MODEL", "z.ai/glm-5.2")
-            default_embedding_model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
+            default_base_url = obtener_secret("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
+            default_api_key = llm_key or nvidia_key or openai_key
+            default_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
+            default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
         else:  # openai
-            default_base_url = os.getenv("LLM_BASE_URL")
-            default_api_key = os.getenv("OPENAI_API_KEY") or os.getenv("LLM_API_KEY")
-            default_model = "gpt-4o-mini"
-            default_embedding_model = "text-embedding-3-small"
+            default_base_url = obtener_secret("LLM_BASE_URL")
+            default_api_key = openai_key or llm_key
+            default_model = obtener_secret("LLM_MODEL", "gpt-4o-mini")
+            default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
 
         self.provider = provider
         self.api_key = api_key or default_api_key
-        self.base_url = base_url or os.getenv("LLM_BASE_URL") or default_base_url
-        self.modelo_llm = modelo_llm or os.getenv("LLM_MODEL") or default_model
-        self.modelo_embedding = modelo_embedding or os.getenv("EMBEDDING_MODEL") or default_embedding_model
+        self.base_url = base_url or obtener_secret("LLM_BASE_URL") or default_base_url
+        self.modelo_llm = modelo_llm or obtener_secret("LLM_MODEL") or default_model
+        self.modelo_embedding = modelo_embedding or obtener_secret("EMBEDDING_MODEL") or default_embedding_model
+
+        # Clave activa para inicialización sin errores en arranque de UI
+        active_api_key = self.api_key or "missing_api_key_placeholder"
 
         # Instanciar LLM
         llm_kwargs = {
             "model": self.modelo_llm,
             "temperature": temperature,
+            "api_key": active_api_key,
         }
-        if self.api_key:
-            llm_kwargs["api_key"] = self.api_key
         if self.base_url:
             llm_kwargs["base_url"] = self.base_url
 
         self.llm = ChatOpenAI(**llm_kwargs)
 
         # Instanciar Embeddings
-        emb_key = embedding_api_key or os.getenv("OPENAI_API_KEY") or self.api_key
+        emb_key = embedding_api_key or openai_key or self.api_key or active_api_key
         emb_base = embedding_base_url
-        if not emb_base and os.getenv("OPENAI_API_KEY") and not self.modelo_embedding.startswith("nvidia/"):
+        if not emb_base and openai_key and not self.modelo_embedding.startswith("nvidia/"):
             emb_base = None
         elif not emb_base and provider in ["nvidia", "custom"] and self.modelo_embedding.startswith("nvidia/"):
             emb_base = self.base_url
 
-        emb_kwargs = {"model": self.modelo_embedding}
-        if emb_key:
-            emb_kwargs["api_key"] = emb_key
+        emb_kwargs = {
+            "model": self.modelo_embedding,
+            "api_key": emb_key,
+        }
         if emb_base:
             emb_kwargs["base_url"] = emb_base
 
@@ -541,6 +567,13 @@ class MotorRAG:
         Retorna:
             (respuesta_texto, lista_de_fuentes)
         """
+        if not self.api_key or self.api_key == "missing_api_key_placeholder":
+            return (
+                "⚠️ No se ha detectado una API Key válida (NVIDIA_API_KEY o OPENAI_API_KEY). "
+                "Por favor, ingresa tu API Key en la barra lateral en la sección 'Configuración del Proveedor IA (LLM)' y haz clic en 'Aplicar Proveedor'.",
+                []
+            )
+        
         if self.vectorstore is None:
             return "⚠️ No hay documentos cargados. Por favor, sube documentos primero.", []
         
