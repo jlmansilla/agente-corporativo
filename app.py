@@ -20,6 +20,10 @@ import streamlit as st
 import tempfile
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
 
 from rag_engine import MotorRAG, EXTRACTORES
 
@@ -112,6 +116,43 @@ with st.sidebar:
              "Markdown, CSV, JSON, HTML, TXT"
     )
     
+    # --- Configuración de Proveedor LLM (OpenAI / NVIDIA Build / Custom) ---
+    with st.expander("🤖 Configuración del Proveedor IA (LLM)"):
+        proveedor_sel = st.radio(
+            "Proveedor LLM:",
+            ["NVIDIA Build (build.nvidia.com)", "OpenAI", "Personalizado"],
+            index=0 if (os.getenv("NVIDIA_API_KEY") or os.getenv("LLM_PROVIDER") == "nvidia") else 1
+        )
+        
+        if proveedor_sel == "NVIDIA Build (build.nvidia.com)":
+            def_key = os.getenv("NVIDIA_API_KEY", "")
+            def_url = "https://integrate.api.nvidia.com/v1"
+            def_model = os.getenv("LLM_MODEL", "z.ai/glm-5.2")
+            p_id = "nvidia"
+        elif proveedor_sel == "Personalizado":
+            def_key = os.getenv("LLM_API_KEY", os.getenv("NVIDIA_API_KEY", ""))
+            def_url = os.getenv("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
+            def_model = os.getenv("LLM_MODEL", "z.ai/glm-5.2")
+            p_id = "custom"
+        else:
+            def_key = os.getenv("OPENAI_API_KEY", "")
+            def_url = ""
+            def_model = "gpt-4o-mini"
+            p_id = "openai"
+
+        api_key_val = st.text_input("API Key:", value=def_key, type="password", help="API Key de NVIDIA Build o OpenAI")
+        base_url_val = st.text_input("Base URL:", value=def_url, help="Ej: https://integrate.api.nvidia.com/v1")
+        modelo_val = st.text_input("Modelo LLM:", value=def_model, help="Ej: z.ai/glm-5.2, meta/llama-3.1-70b-instruct, gpt-4o-mini")
+
+        if st.button("⚡ Aplicar Proveedor"):
+            st.session_state.motor_rag = MotorRAG(
+                provider=p_id,
+                api_key=api_key_val if api_key_val else None,
+                base_url=base_url_val if base_url_val else None,
+                modelo_llm=modelo_val if modelo_val else None,
+            )
+            st.success(f"Motor actualizado usando {proveedor_sel} ({modelo_val})")
+
     # --- Parámetros de chunking (avanzado) ---
     with st.expander("⚙️ Parámetros de procesamiento (avanzado)"):
         chunk_size = st.slider(

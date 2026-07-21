@@ -49,7 +49,8 @@ El agente es capaz de extraer y procesar texto de los siguientes formatos:
 
 - **Interfaz de Usuario**: [Streamlit](https://streamlit.io/)
 - **Orquestador RAG**: [LangChain](https://www.langchain.com/)
-- **Embeddings & LLM**: OpenAI (`text-embedding-3-small` / `gpt-4o-mini`)
+- **LLM**: Multi-proveedor (OpenAI `gpt-4o-mini`, NVIDIA Build `z.ai/glm-5.2` / `meta/llama-3.1-70b-instruct`, endpoints compatibles con OpenAI)
+- **Embeddings**: OpenAI (`text-embedding-3-small`) / NVIDIA Embeddings
 - **Vector Database**: [ChromaDB](https://www.trychroma.com/)
 - **Extracción de Documentos**: `pypdf`, `python-docx`, `openpyxl`, `python-pptx`, `beautifulsoup4`, `pandas`
 

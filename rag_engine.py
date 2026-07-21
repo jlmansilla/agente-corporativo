@@ -20,6 +20,9 @@ import json
 import hashlib
 from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass, field
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # --- Extracción de documentos ---
 from pypdf import PdfReader
@@ -380,26 +383,86 @@ class MotorRAG:
         respuesta, fuentes = motor.consultar("¿Cuántos días de vacaciones tengo?")
     """
     
-    def __init__(self, modelo_embedding: str = "text-embedding-3-small"):
+    def __init__(
+        self,
+        provider: Optional[str] = None,
+        api_key: Optional[str] = None,
+        base_url: Optional[str] = None,
+        modelo_llm: Optional[str] = None,
+        modelo_embedding: Optional[str] = None,
+        embedding_api_key: Optional[str] = None,
+        embedding_base_url: Optional[str] = None,
+        temperature: float = 0.1,
+    ):
         """
-        Inicializa el motor con los componentes del pipeline.
+        Inicializa el motor RAG con soporte multi-proveedor (OpenAI, NVIDIA Build z.ai/glm-5.2, etc.).
         
-        El modelo de embedding convierte texto → vector numérico.
-        'text-embedding-3-small' es el modelo de OpenAI:
-        - 1536 dimensiones
-        - Buen balance calidad/costo
-        - Multilingüe (funciona bien en español)
+        Soporta:
+        - NVIDIA Build (build.nvidia.com) con modelos como 'z.ai/glm-5.2' o 'meta/llama-3.1-70b-instruct'
+        - OpenAI (gpt-4o-mini, text-embedding-3-small)
+        - Cualquier endpoint compatible con la API de OpenAI
         """
-        self.embeddings = OpenAIEmbeddings(model=modelo_embedding)
+        # Determinar proveedor (prioridad: parámetro > env LLM_PROVIDER > autodetección por NVIDIA_API_KEY)
+        if not provider:
+            if os.getenv("NVIDIA_API_KEY") or os.getenv("LLM_PROVIDER") == "nvidia":
+                provider = "nvidia"
+            else:
+                provider = os.getenv("LLM_PROVIDER", "openai")
+        
+        provider = provider.lower()
+
+        # Configuración por defecto según el proveedor
+        if provider in ["nvidia", "nvidia.build", "build.nvidia.com"]:
+            default_base_url = "https://integrate.api.nvidia.com/v1"
+            default_api_key = os.getenv("NVIDIA_API_KEY") or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")
+            default_model = "z.ai/glm-5.2"
+            default_embedding_model = "text-embedding-3-small"
+        elif provider == "custom":
+            default_base_url = os.getenv("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
+            default_api_key = os.getenv("LLM_API_KEY") or os.getenv("NVIDIA_API_KEY") or os.getenv("OPENAI_API_KEY")
+            default_model = os.getenv("LLM_MODEL", "z.ai/glm-5.2")
+            default_embedding_model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
+        else:  # openai
+            default_base_url = os.getenv("LLM_BASE_URL")
+            default_api_key = os.getenv("OPENAI_API_KEY") or os.getenv("LLM_API_KEY")
+            default_model = "gpt-4o-mini"
+            default_embedding_model = "text-embedding-3-small"
+
+        self.provider = provider
+        self.api_key = api_key or default_api_key
+        self.base_url = base_url or os.getenv("LLM_BASE_URL") or default_base_url
+        self.modelo_llm = modelo_llm or os.getenv("LLM_MODEL") or default_model
+        self.modelo_embedding = modelo_embedding or os.getenv("EMBEDDING_MODEL") or default_embedding_model
+
+        # Instanciar LLM
+        llm_kwargs = {
+            "model": self.modelo_llm,
+            "temperature": temperature,
+        }
+        if self.api_key:
+            llm_kwargs["api_key"] = self.api_key
+        if self.base_url:
+            llm_kwargs["base_url"] = self.base_url
+
+        self.llm = ChatOpenAI(**llm_kwargs)
+
+        # Instanciar Embeddings
+        emb_key = embedding_api_key or os.getenv("OPENAI_API_KEY") or self.api_key
+        emb_base = embedding_base_url
+        if not emb_base and os.getenv("OPENAI_API_KEY") and not self.modelo_embedding.startswith("nvidia/"):
+            emb_base = None
+        elif not emb_base and provider in ["nvidia", "custom"] and self.modelo_embedding.startswith("nvidia/"):
+            emb_base = self.base_url
+
+        emb_kwargs = {"model": self.modelo_embedding}
+        if emb_key:
+            emb_kwargs["api_key"] = emb_key
+        if emb_base:
+            emb_kwargs["base_url"] = emb_base
+
+        self.embeddings = OpenAIEmbeddings(**emb_kwargs)
         self.vectorstore: Optional[Chroma] = None
         self.documentos_ingestados: List[Dict] = []
-        
-        # LLM para generar respuestas
-        # gpt-4o-mini: buen balance calidad/costo para este caso
-        self.llm = ChatOpenAI(
-            model="gpt-4o-mini",
-            temperature=0.1,  # Baja temperatura = respuestas más precisas y menos "creativas"
-        )
     
     def ingestar_documento(
         self,
