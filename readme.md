@@ -1,18 +1,45 @@
-# 🤖 Agente IA Corporativo — Challenge Alura ONE
+# 🤖 Agente IA Corporativo — NexusFlow (Challenge Alura ONE)
 
+![Estado](https://img.shields.io/badge/Estado-Desplegado%20en%20Producci%C3%B3n-brightgreen?style=for-the-badge&logo=streamlit)
+![Deploy](https://img.shields.io/badge/Deploy-Streamlit%20Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.30%2B-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-0.2%2B-121212?style=for-the-badge&logo=chainlink&logoColor=white)
-![NVIDIA Build](https://img.shields.io/badge/NVIDIA_Build-z.ai%2Fglm--5.2-76B900?style=for-the-badge&logo=nvidia&logoColor=white)
+![NVIDIA Build](https://img.shields.io/badge/NVIDIA_Build-meta%2Fllama--3.1--70b--instruct-76B900?style=for-the-badge&logo=nvidia&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-Compatible-412991?style=for-the-badge&logo=openai&logoColor=white)
 
-Agente de inteligencia artificial que responde preguntas de colaboradores de una empresa basándose de manera rigurosa y precisa en sus documentos internos institucionales mediante **RAG (Retrieval-Augmented Generation)**.
+Agente de Inteligencia Artificial Corporativo diseñado para responder preguntas de colaboradores y equipos de trabajo basándose de manera rigurosa, precisa y transparente en la documentación interna de la empresa mediante **RAG (Retrieval-Augmented Generation)**.
+
+---
+
+## 🌐 Demo en Vivo y Despliegue
+
+La aplicación se encuentra **completamente desplegada y operativa** en Streamlit Cloud:
+
+👉 **[https://agente-corporativo-8vbrjie2avhlznnubeffja.streamlit.app/](https://agente-corporativo-8vbrjie2avhlznnubeffja.streamlit.app/)**
+
+---
+
+## 📊 Estado Actual del Proyecto
+
+| Componente | Estado Actual | Detalles de Implementación |
+| :--- | :---: | :--- |
+| **Aplicación Web / UI** | 🟢 **Operativo** | Interfaz interactiva en Streamlit con chat en tiempo real, métricas de dataset y visor de fuentes. |
+| **Despliegue Cloud** | 🟢 **Publicado** | Desplegado en Streamlit Cloud con conexión segura a variables de entorno (`Secrets`). |
+| **Motor RAG** | 🟢 **Operativo** | Pipeline completo: ingestión, extracción multiformato, chunking con metadatos, embeddings y almacenamiento vectorial. |
+| **LLM Integrado** | 🟢 **Activo** | **NVIDIA Build** (`meta/llama-3.1-70b-instruct`) con fallback automático a APIs OpenAI compatibles. |
+| **Vector Store** | 🟢 **Activo** | **ChromaDB** para búsqueda semántica por similitud coseno sobre vectores de alta dimensión. |
+| **Base de Conocimiento** | 🟢 **Indexada** | Carga e ingestión automática al iniciar la app desde el repositorio institucional (`docs/`). |
+| **Filtrado por Área** | 🟢 **Operativo** | Filtro dinámico por departamento (RH, Soporte, Legal, Operaciones, Marketing). |
 
 ---
 
 ## 📌 Tabla de Contenidos
-- [✨ Características](#-características)
-- [📁 Formatos Soportados](#-formatos-soportados)
+
+- [🌐 Demo en Vivo y Despliegue](#-demo-en-vivo-y-despliegue)
+- [📊 Estado Actual del Proyecto](#-estado-actual-del-proyecto)
+- [✨ Características Principales](#-características-principales)
+- [📁 Formatos y Base de Conocimiento](#-formatos-y-base-de-conocimiento)
 - [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
 - [🏗️ Arquitectura del Sistema](#️-arquitectura-del-sistema)
 - [🧠 Mapa Conceptual](#-mapa-conceptual)
@@ -23,48 +50,73 @@ Agente de inteligencia artificial que responde preguntas de colaboradores de una
 
 ---
 
-## ✨ Características
+## ✨ Características Principales
 
-- 🔍 **Búsqueda Semántica**: Encuentra la información relevante dentro de los documentos utilizando embeddings de alta dimensión.
-- 🎯 **Respuestas Fundamentadas**: El LLM responde únicamente basándose en el contexto extraído de los archivos subidos.
-- ⚡ **Procesamiento Multiformato**: Carga e indexa una amplia variedad de archivos empresariales.
-- 📊 **Citas y Fuentes**: Muestra de forma transparente las partes de los documentos utilizadas para generar cada respuesta.
-- 💬 **Interfaz Intuitiva**: Chat interactivo desarrollado en Streamlit con carga diferida y gestión de estado.
+- 🔍 **Búsqueda Semántica de Alta Precisión**: Encuentra fragmentos relevantes dentro de los documentos utilizando embeddings vectoriales.
+- 🎯 **Respuestas 100% Fundamentadas**: El modelo responde **exclusivamente** con base en el contexto extraído de los documentos cargados, evitando alucinaciones.
+- ⚡ **Ingestión Multiformato Automática**: Procesa documentos PDF, Word, Excel, CSV, JSON, Markdown, PowerPoint y HTML directamente al iniciar la app.
+- 📌 **Filtro por Departamento / Área**: Permite acotar las consultas a áreas específicas (RH, Soporte, Legal, Operacional, Marketing).
+- 📎 **Transparencia y Citas de Fuentes**: Muestra los documentos, fragmentos y extractos exactos utilizados para construir cada respuesta.
+- 💬 **Interfaz de Chat Moderna**: Experiencia fluida desarrollada en Streamlit con gestión de historial y métricas en tiempo real.
 
 ---
 
-## 📁 Formatos Soportados
+## 📁 Formatos y Base de Conocimiento
 
-El agente es capaz de extraer y procesar texto de los siguientes formatos:
+El motor RAG procesa los documentos institucionales organizados en las subcarpetas del directorio `docs/`:
 
-| Categoría | Extensiones Soportadas |
-| :--- | :--- |
-| **Documentos de Texto** | PDF (`.pdf`), Word (`.docx`), Texto Plano (`.txt`), Markdown (`.md`) |
-| **Hojas de Cálculo** | Excel (`.xlsx`), CSV (`.csv`) |
-| **Presentaciones** | PowerPoint (`.pptx`) |
-| **Datos Estructurados & Web** | JSON (`.json`), HTML (`.html`) |
+| Categoría / Departamento | Formatos Soportados | Contenido Incluido en `docs/` |
+| :--- | :--- | :--- |
+| **🧑‍💼 Recursos Humanos (`rh/`)** | `.pdf`, `.docx`, `.xlsx`, `.csv`, `.md`, `.json` | Manual de bienvenida, políticas de trabajo remoto, matriz de cargos, FAQ de RH, código de conducta y corpus institucional. |
+| **💻 Soporte Técnico (`soporte/`)** | `.pdf`, `.md`, `.json`, `.txt` | Guías de acceso VPN, restablecimiento de credenciales, políticas de seguridad TI y solución de problemas. |
+| **⚖️ Legal y Compliance (`legal/`)** | `.pdf`, `.docx`, `.html` | Políticas de privacidad, términos de servicio, contratos tipo y normativas de protección de datos. |
+| **⚙️ Operaciones (`operacional/`)** | `.pdf`, `.pptx`, `.xlsx` | Manuales de procedimientos operativos, flujo de trabajo interno y métricas de desempeño. |
+| **📈 Marketing y Comercial (`marketing/`)** | `.pdf`, `.pptx`, `.md` | Planes de suscripción, estructura de precios, presentación comercial y material de marca. |
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Interfaz de Usuario**: [Streamlit](https://streamlit.io/)
-- **Orquestador RAG**: [LangChain](https://www.langchain.com/)
-- **LLM Principal**: [NVIDIA Build](https://build.nvidia.com/) (`meta/llama-3.1-70b-instruct`) mediante endpoint compatible con OpenAI (con soporte secundario para `gpt-4o-mini` y modelos custom).
-- **Embeddings**: OpenAI (`text-embedding-3-small`) / NVIDIA Embeddings (`nvidia/nv-embedqa-e5-v5`)
+- **Frontend & UI**: [Streamlit](https://streamlit.io/) (v1.30+)
+- **Orquestador RAG**: [LangChain](https://www.langchain.com/) (v0.2+)
+- **LLM Principal**: [NVIDIA Build](https://build.nvidia.com/) (`meta/llama-3.1-70b-instruct`) con endpoint OpenAI-Compatible.
+- **Embeddings**: `text-embedding-3-small` (OpenAI) / `nvidia/nv-embedqa-e5-v5` (NVIDIA)
 - **Vector Database**: [ChromaDB](https://www.trychroma.com/)
-- **Extracción de Documentos**: `pypdf`, `python-docx`, `openpyxl`, `python-pptx`, `beautifulsoup4`, `pandas`
+- **Procesamiento de Documentos**: `pypdf`, `python-docx`, `openpyxl`, `python-pptx`, `beautifulsoup4`, `pandas`
 
 ---
 
 ## 🏗️ Arquitectura del Sistema
 
 ```text
-Documento → Extracción → Limpieza → Chunking → Embeddings → Vector DB (Chroma)
-                                                                   ↓
-Pregunta del usuario → Embedding → Búsqueda por similitud → Top-k chunks
-                                                                   ↓
-                                               LLM + Contexto → Respuesta
+┌────────────────────────────────────────────────────────────────────────┐
+│                        ENTRADA DE DOCUMENTOS                           │
+│  Carpeta docs/ (PDF, DOCX, XLSX, CSV, JSON, MD, PPTX, HTML, TXT)       │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Extracción & Cleaning
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        PROCESAMIENTO Y CHUNKING                        │
+│  RecursiveCharacterTextSplitter + Asignación de Metadatos y Categorías │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Generación de Vectores
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        VECTOR STORE (ChromaDB)                         │
+│  Almacena fragmentos y embeddings de 1536 dimensiones                  │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Búsqueda por similitud
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        GENERACIÓN DE RESPUESTA                         │
+│  Top-k Chunks Contexto + Prompt RAG ──▶ LLM (NVIDIA Build Llama 3.1)   │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Respuesta + Fuentes
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        INTERFAZ DE USUARIO                             │
+│  Streamlit App Chat + Visualizador de Fuentes & Métricas de Dataset    │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -74,35 +126,34 @@ Pregunta del usuario → Embedding → Búsqueda por similitud → Top-k chunks
 ```text
 ┌─────────────────────────────────────────────────────────┐
 │                    INTERFAZ (app.py)                    │
-│  Streamlit: chat, upload de docs, sidebar, fuentes      │
+│  Streamlit: Chat, status badge, sidebar, filtro, fuentes│
 └──────────────────────┬──────────────────────────────────┘
-                       │ llama a
+                       │ Invoca
                        ▼
 ┌──────────────────────────────────────────────────────────────┐
 │               MOTOR RAG (rag_engine.py)                      │
 │                                                              │
 │  ┌─────────────┐     ┌──────────┐     ┌──────────────────┐   │
-│  │ Extracción  │──▶  | Limpieza  |──▶│ Chunking + Meta  │   │
+│  │ Extracción  │──▶  │ Limpieza │──▶  │ Chunking + Meta  │   │
 │  │ por formato │     │ de texto │     │ datos por chunk  │   │
 │  └─────────────┘     └──────────┘     └────────┬─────────┘   │
 │                                                │             │
 │                                                ▼             │
 │  ┌──────────────────────────────────────────────────┐        │
-│  │  EMBEDDINGS (texto → vector de 1536 dimensiones) │        │
+│  │  EMBEDDINGS (texto → vector)                     │        │
 │  └──────────────────────┬───────────────────────────┘        │
 │                         ▼                                    │
 │  ┌──────────────────────────────────────────────────┐        │
 │  │  VECTOR STORE (ChromaDB)                         │        │
-│  │  Almacena vectores + metadatos                   │        │
-│  │  Permite búsqueda por similitud coseno           │        │
+│  │  Almacena vectores + metadatos por departamento  │        │
 │  └──────────────────────┬───────────────────────────┘        │
 │                         ▼                                    │
 │  ┌──────────────────────────────────────────────────┐        │
 │  │  CONSULTA RAG                                    │        │
-│  │  1. Pregunta → embedding                         │        │
-│  │  2. Búsqueda top-k en vector store               │        │
-│  │  3. Chunks recuperados → contexto del prompt     │        │
-│  │  4. LLM genera respuesta fundamentada            │        │
+│  │  1. Pregunta → Embedding                         │        │
+│  │  2. Búsqueda top-k (con/sin filtro de categoría) │        │
+│  │  3. Contexto extraído → Prompt del LLM           │        │
+│  │  4. NVIDIA Build Llama 3.1 genera respuesta      │        │
 │  └──────────────────────────────────────────────────┘        │
 └──────────────────────────────────────────────────────────────┘
 ```
@@ -117,16 +168,17 @@ Pregunta del usuario → Embedding → Búsqueda por similitud → Top-k chunks
 
 ### 2. Clonar el Repositorio e Instalar Dependencias
 ```bash
-git clone <URL_DE_TU_REPOSITORIO>
+git clone https://github.com/jlmansilla/agente-corporativo.git
 cd agente-corporativo
 pip install -r requirements.txt
 ```
 
 ### 3. Configurar Variables de Entorno
-Copia el archivo de ejemplo `.env.example` a `.env` y agrega tu clave de NVIDIA:
+Copia el archivo `.env.example` a `.env` y configura tus credenciales:
 ```bash
 cp .env.example .env
 ```
+
 Edita `.env`:
 ```env
 NVIDIA_API_KEY=nvapi-tu-api-key-aqui
@@ -144,17 +196,19 @@ streamlit run app.py
 
 ## ☁️ Despliegue en Streamlit Cloud
 
-1. Sube tu repositorio a **GitHub**.
-2. Ingresa a [share.streamlit.io](https://share.streamlit.io) e inicia sesión.
-3. Haz clic en **"New app"** y conecta tu repositorio.
-4. En la sección **Settings → Secrets**, agrega tu clave de API de NVIDIA:
+El proyecto está configurado para desplegarse automáticamente en **Streamlit Cloud**:
+
+1. Subir el repositorio a GitHub.
+2. Ir a [share.streamlit.io](https://share.streamlit.io) y conectar el repositorio.
+3. En **Settings → Secrets**, agregar la configuración del proveedor LLM:
    ```toml
    NVIDIA_API_KEY = "nvapi-tu-key-aqui"
    LLM_PROVIDER = "nvidia"
    LLM_BASE_URL = "https://integrate.api.nvidia.com/v1"
    LLM_MODEL = "meta/llama-3.1-70b-instruct"
    ```
-5. Haz clic en **Deploy**. El despliegue se realizará de forma automática.
+4. El despliegue estará activo en:
+   👉 **[https://agente-corporativo-8vbrjie2avhlznnubeffja.streamlit.app/](https://agente-corporativo-8vbrjie2avhlznnubeffja.streamlit.app/)**
 
 ---
 
@@ -162,30 +216,35 @@ streamlit run app.py
 
 ```text
 agente-corporativo/
-├── .streamlit/         # Configuración del tema e interfaz de Streamlit
-├── app.py              # Interfaz de usuario (Streamlit Chat & Sidebar)
-├── rag_engine.py       # Lógica principal del RAG (ingestión, chunking, ChromaDB, QA)
-├── requirements.txt    # Librerías y dependencias de Python
-├── .env.example        # Plantilla para variables de entorno
-└── readme.md           # Documentación del proyecto
+├── .streamlit/         # Configuración visual y tema de Streamlit
+├── docs/               # Base de conocimiento (rh, soporte, legal, operacional, marketing)
+│   ├── legal/          # Documentos del departamento legal
+│   ├── marketing/      # Documentos de comercial y marketing
+│   ├── operacional/    # Documentos de operaciones
+│   ├── rh/             # Documentos de recursos humanos
+│   └── soporte/        # Documentos de soporte técnico
+├── app.py              # Interfaz web interactiva (Streamlit Chat UI)
+├── rag_engine.py       # Pipeline RAG (extracción, chunking, ChromaDB, QA)
+├── requirements.txt    # Dependencias del proyecto
+├── .env.example        # Plantilla de variables de entorno
+└── readme.md           # Documentación y estado del proyecto
 ```
 
 ---
 
 ## ⚠️ Limitaciones y Próximos Pasos
 
-| Limitación Actual | Concepto / Tecnología a Estudiar para Solucionar |
+| Limitación Actual | Solución Planeada / Próximo Paso |
 | :--- | :--- |
-| **Sin OCR para PDFs escaneados** | Computer Vision, Tesseract OCR, Unstructured |
-| **Sin persistencia multi-sesión** | Bases de datos relacionales/NoSQL, Docker Volumes |
-| **Sin Guardrails avanzados** | Content Moderation APIs, NeMo Guardrails |
-| **Sin gestión multi-usuario** | Autenticación, WebSockets, Redis, Arquitectura Multi-tenant |
-| **Sin Re-ranking de resultados** | Cross-Encoders, Cohere Rerank, FlashRank |
-| **Tablas complejas de Excel** | Table Transformers, análisis estructural de dataframes |
-| **Sin despliegue empresarial (OCI/AWS)** | Cloud Computing (OCI/GCP/AWS), Containers (Docker/K8s) |
+| **Sin OCR para PDFs escaneados** | Integración de Tesseract OCR / Unstructured. |
+| **Persistencia de conversación multi-sesión** | Integración con PostgreSQL / Redis para historial persistente. |
+| **Guardrails de contenido** | Implementación de NeMo Guardrails o moderación de OpenAI. |
+| **Re-ranking de fragmentos** | Incorporación de Cross-Encoder / Cohere Rerank / FlashRank. |
+| **Autenticación multi-usuario** | Implementación de OAuth2 / Streamlit Authenticator. |
 
 ---
 
 <p align="center">
-  Desarrollado para el Challenge Alura ONE 🚀
+  Desarrollado para el <b>Challenge Alura ONE</b> 🚀<br>
+  🔗 <b>Deploy Oficial:</b> <a href="https://agente-corporativo-8vbrjie2avhlznnubeffja.streamlit.app/">Agente IA Corporativo en Streamlit Cloud</a>
 </p>
