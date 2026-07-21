@@ -119,7 +119,11 @@ with st.sidebar:
                         f"&nbsp;&nbsp;&nbsp;🔢 *{doc['chunks']} chunks* | *{doc['formato']}*"
                     )
     else:
-        st.info("No se encontraron documentos en la carpeta 'docs/'")
+        st.warning("⚠️ No se han indexado aún los documentos de `docs/`.")
+        if st.button("🔄 Cargar e Indexar Repositorio (`docs/`)", type="primary", use_container_width=True):
+            with st.spinner("Procesando e indexando carpeta docs/..."):
+                st.session_state.motor_rag.ingestar_directorio("docs")
+                st.rerun()
             
     st.divider()
     

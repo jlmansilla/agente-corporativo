@@ -442,16 +442,38 @@ class MotorRAG:
         if self.base_url:
             llm_kwargs["base_url"] = self.base_url
 
+        # Instanciar LLM
+        llm_kwargs = {
+            "model": self.modelo_llm,
+            "temperature": temperature,
+            "api_key": active_api_key,
+        }
+        if self.base_url:
+            llm_kwargs["base_url"] = self.base_url
+
         self.llm = ChatOpenAI(**llm_kwargs)
 
-        # Instanciar Embeddings
-        emb_key = embedding_api_key or openai_key or self.api_key or active_api_key
-        emb_base = embedding_base_url
-        if not emb_base and openai_key and not self.modelo_embedding.startswith("nvidia/"):
+        # Configurar Embeddings según proveedor y claves disponibles
+        if embedding_api_key:
+            emb_key = embedding_api_key
+            emb_base = embedding_base_url
+            emb_model = modelo_embedding or "text-embedding-3-small"
+        elif openai_key:
+            # Si hay clave de OpenAI disponible, usar OpenAI nativo
+            emb_key = openai_key
             emb_base = None
-        elif not emb_base and provider in ["nvidia", "custom"] and self.modelo_embedding.startswith("nvidia/"):
+            emb_model = modelo_embedding or "text-embedding-3-small"
+        elif provider in ["nvidia", "nvidia.build", "build.nvidia.com"] or (nvidia_key and not openai_key):
+            # Si se usa NVIDIA Build, el modelo de embeddings debe ser de NVIDIA con su base_url
+            emb_key = nvidia_key or active_api_key
+            emb_base = "https://integrate.api.nvidia.com/v1"
+            emb_model = "nvidia/nv-embedqa-e5-v5" if (not modelo_embedding or modelo_embedding == "text-embedding-3-small") else modelo_embedding
+        else:
+            emb_key = active_api_key
             emb_base = self.base_url
+            emb_model = modelo_embedding or "text-embedding-3-small"
 
+        self.modelo_embedding = emb_model
         emb_kwargs = {
             "model": self.modelo_embedding,
             "api_key": emb_key,
@@ -459,7 +481,16 @@ class MotorRAG:
         if emb_base:
             emb_kwargs["base_url"] = emb_base
 
-        self.embeddings = OpenAIEmbeddings(**emb_kwargs)
+        try:
+            self.embeddings = OpenAIEmbeddings(**emb_kwargs)
+        except Exception as e:
+            print(f"Advertencia al instanciar embeddings ({e}). Usando fallback...")
+            self.embeddings = OpenAIEmbeddings(
+                model="nvidia/nv-embedqa-e5-v5",
+                api_key=nvidia_key or active_api_key,
+                base_url="https://integrate.api.nvidia.com/v1"
+            )
+
         self.vectorstore: Optional[Chroma] = None
         self.documentos_ingestados: List[Dict] = []
     
@@ -490,14 +521,32 @@ class MotorRAG:
         )
         
         # Paso 4: Embeddings + almacenamiento en vector store
-        if self.vectorstore is None:
-            self.vectorstore = Chroma.from_documents(
-                documents=chunks,
-                embedding=self.embeddings,
-                collection_name="documentos_corporativos",
+        try:
+            if self.vectorstore is None:
+                self.vectorstore = Chroma.from_documents(
+                    documents=chunks,
+                    embedding=self.embeddings,
+                    collection_name="documentos_corporativos",
+                )
+            else:
+                self.vectorstore.add_documents(chunks)
+        except Exception as e_emb:
+            print(f"Error con embeddings ({e_emb}). Reintentando con modelo NVIDIA Embeddings...")
+            # Reintentar con modelo oficial de embeddings de NVIDIA
+            nv_k = self.api_key or "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"
+            self.embeddings = OpenAIEmbeddings(
+                model="nvidia/nv-embedqa-e5-v5",
+                api_key=nv_k,
+                base_url="https://integrate.api.nvidia.com/v1"
             )
-        else:
-            self.vectorstore.add_documents(chunks)
+            if self.vectorstore is None:
+                self.vectorstore = Chroma.from_documents(
+                    documents=chunks,
+                    embedding=self.embeddings,
+                    collection_name="documentos_corporativos",
+                )
+            else:
+                self.vectorstore.add_documents(chunks)
         
         # Registro para la interfaz
         resultado = DocumentoProcesado(
