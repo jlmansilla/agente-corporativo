@@ -417,12 +417,12 @@ class MotorRAG:
         if provider in ["nvidia", "nvidia.build", "build.nvidia.com"]:
             default_base_url = "https://integrate.api.nvidia.com/v1"
             default_api_key = nvidia_key or llm_key or default_nvidia_key
-            default_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
+            default_model = obtener_secret("LLM_MODEL", "meta/llama3-70b-instruct")
             default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
         elif provider == "custom":
             default_base_url = obtener_secret("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
             default_api_key = llm_key or nvidia_key or default_nvidia_key
-            default_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
+            default_model = obtener_secret("LLM_MODEL", "meta/llama3-70b-instruct")
             default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
         else:  # openai
             default_base_url = obtener_secret("LLM_BASE_URL")

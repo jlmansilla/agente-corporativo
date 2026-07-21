@@ -50,7 +50,7 @@ El agente es capaz de extraer y procesar texto de los siguientes formatos:
 
 - **Interfaz de Usuario**: [Streamlit](https://streamlit.io/)
 - **Orquestador RAG**: [LangChain](https://www.langchain.com/)
-- **LLM Principal**: [NVIDIA Build](https://build.nvidia.com/) (`z.ai/glm-5.2`) mediante endpoint compatible con OpenAI (con soporte secundario para `gpt-4o-mini` y modelos custom).
+- **LLM Principal**: [NVIDIA Build](https://build.nvidia.com/) (`meta/llama3-70b-instruct`) mediante endpoint compatible con OpenAI (con soporte secundario para `gpt-4o-mini` y modelos custom).
 - **Embeddings**: OpenAI (`text-embedding-3-small`) / NVIDIA Embeddings (`nvidia/nv-embedqa-e5-v5`)
 - **Vector Database**: [ChromaDB](https://www.trychroma.com/)
 - **Extracción de Documentos**: `pypdf`, `python-docx`, `openpyxl`, `python-pptx`, `beautifulsoup4`, `pandas`
@@ -132,7 +132,7 @@ Edita `.env`:
 NVIDIA_API_KEY=nvapi-tu-api-key-aqui
 LLM_PROVIDER=nvidia
 LLM_BASE_URL=https://integrate.api.nvidia.com/v1
-LLM_MODEL=z.ai/glm-5.2
+LLM_MODEL=meta/llama3-70b-instruct
 ```
 
 ### 4. Iniciar la Aplicación
@@ -152,7 +152,7 @@ streamlit run app.py
    NVIDIA_API_KEY = "nvapi-tu-key-aqui"
    LLM_PROVIDER = "nvidia"
    LLM_BASE_URL = "https://integrate.api.nvidia.com/v1"
-   LLM_MODEL = "z.ai/glm-5.2"
+   LLM_MODEL = "meta/llama3-70b-instruct"
    ```
 5. Haz clic en **Deploy**. El despliegue se realizará de forma automática.
 

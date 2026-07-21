@@ -4,7 +4,7 @@ app.py
 Interfaz web del Agente IA Corporativo.
 
 Desplegado con:
-  - Motor RAG: NVIDIA Build (build.nvidia.com) con modelo z.ai/glm-5.2
+  - Motor RAG: NVIDIA Build (build.nvidia.com) con modelo meta/llama3-70b-instruct
   - Ingesta automática: Documentación corporativa del repositorio (docs/)
 """
 
@@ -61,7 +61,7 @@ st.markdown("""
 
 if "motor_rag" not in st.session_state:
     with st.spinner("🚀 Inicializando Agente RAG e ingestando documentos del repositorio..."):
-        # Inicializa con NVIDIA Build (z.ai/glm-5.2) por defecto
+        # Inicializa con NVIDIA Build (meta/llama3-70b-instruct) por defecto
         st.session_state.motor_rag = MotorRAG()
         # Ingesta automáticamente los documentos institucionales del repositorio
         st.session_state.motor_rag.ingestar_directorio("docs")
@@ -75,7 +75,7 @@ if "mensajes" not in st.session_state:
 # ============================================================
 with st.sidebar:
     st.title("🏢 Agente Corporativo")
-    st.markdown('<div class="status-badge">🟢 Modelo: NVIDIA Build (z.ai/glm-5.2)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="status-badge">🟢 Modelo: NVIDIA Build (meta/llama3-70b-instruct)</div>', unsafe_allow_html=True)
     
     st.divider()
     
@@ -139,7 +139,7 @@ with st.sidebar:
 st.title("🤖 Agente IA Corporativo — NexusFlow")
 st.caption(
     "Responde preguntas institucionales basándose **exclusivamente** en los documentos "
-    "procesados del repositorio mediante RAG con **NVIDIA Build (z.ai/glm-5.2)**."
+    "procesados del repositorio mediante RAG con **NVIDIA Build (meta/llama3-70b-instruct)**."
 )
 
 # --- Renderizar historial de chat ---
@@ -171,7 +171,7 @@ if prompt := st.chat_input("Escribe tu pregunta sobre políticas de RH, soporte,
     
     # Generar respuesta con el motor RAG
     with st.chat_message("assistant"):
-        with st.spinner("🔍 Consultando base de conocimiento con NVIDIA Build (z.ai/glm-5.2)..."):
+        with st.spinner("🔍 Consultando base de conocimiento con NVIDIA Build (meta/llama3-70b-instruct)..."):
             try:
                 cat_filtro = None if filtro_categoria == "Todas" else filtro_categoria
                 respuesta, fuentes = st.session_state.motor_rag.consultar(
@@ -228,5 +228,5 @@ if not st.session_state.mensajes:
     | ⚙️ **Operaciones** | *"¿Cuál es la visión general de los procesos operativos de NexusFlow?"* |
     | 📈 **Marketing y Comercial** | *"¿Cuáles son los planes de precios y modelos de suscripción?"* |
     
-    *Powered by **NVIDIA Build (z.ai/glm-5.2)** + **RAG**.*
+    *Powered by **NVIDIA Build (meta/llama3-70b-instruct)** + **RAG**.*
     """)
