@@ -417,12 +417,12 @@ class MotorRAG:
         if provider in ["nvidia", "nvidia.build", "build.nvidia.com"]:
             default_base_url = "https://integrate.api.nvidia.com/v1"
             default_api_key = nvidia_key or llm_key or default_nvidia_key
-            default_model = obtener_secret("LLM_MODEL", "meta/llama3-70b-instruct")
+            default_model = obtener_secret("LLM_MODEL", "meta/llama-3.1-70b-instruct")
             default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
         elif provider == "custom":
             default_base_url = obtener_secret("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
             default_api_key = llm_key or nvidia_key or default_nvidia_key
-            default_model = obtener_secret("LLM_MODEL", "meta/llama3-70b-instruct")
+            default_model = obtener_secret("LLM_MODEL", "meta/llama-3.1-70b-instruct")
             default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
         else:  # openai
             default_base_url = obtener_secret("LLM_BASE_URL")
@@ -440,25 +440,32 @@ class MotorRAG:
         active_api_key = self.api_key or "missing_api_key_placeholder"
 
         # Instanciar LLM
-        llm_kwargs = {
-            "model": self.modelo_llm,
-            "temperature": temperature,
-            "api_key": active_api_key,
-        }
-        if self.base_url:
-            llm_kwargs["base_url"] = self.base_url
-
-        # Instanciar LLM
-        llm_kwargs = {
-            "model": self.modelo_llm,
-            "temperature": temperature,
-            "api_key": active_api_key,
-        }
-        if self.base_url:
-            llm_kwargs["base_url"] = self.base_url
-
-        self.llm = ChatOpenAI(**llm_kwargs)
-
+        try:
+            if ChatNVIDIA and provider in ["nvidia", "nvidia.build", "build.nvidia.com"]:
+                self.llm = ChatNVIDIA(
+                    model=self.modelo_llm,
+                    temperature=temperature,
+                    nvidia_api_key=active_api_key,
+                )
+            else:
+                llm_kwargs = {
+                    "model": self.modelo_llm,
+                    "temperature": temperature,
+                    "api_key": active_api_key,
+                }
+                if self.base_url:
+                    llm_kwargs["base_url"] = self.base_url
+                self.llm = ChatOpenAI(**llm_kwargs)
+        except Exception as e:
+            print(f"Advertencia al instanciar LLM: {e}")
+            llm_kwargs = {
+                "model": self.modelo_llm,
+                "temperature": temperature,
+                "api_key": active_api_key,
+            }
+            if self.base_url:
+                llm_kwargs["base_url"] = self.base_url
+            self.llm = ChatOpenAI(**llm_kwargs)
         # Configurar Embeddings según proveedor y claves disponibles
         if embedding_api_key:
             emb_key = embedding_api_key
