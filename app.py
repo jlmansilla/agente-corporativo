@@ -3,44 +3,33 @@ app.py
 ======
 Interfaz web del Agente IA Corporativo.
 
-Estructura de la interfaz:
-  - Sidebar: Carga de documentos + configuración
-  - Panel principal: Chat con el agente
-
-Para ejecutar localmente:
-    streamlit run app.py
-
-Para deploy en Streamlit Cloud:
-    1. Subir a GitHub
-    2. Conectar repo en share.streamlit.io
-    3. Configurar OPENAI_API_KEY en Secrets
+Desplegado con:
+  - Motor RAG: NVIDIA Build (build.nvidia.com) con modelo z.ai/glm-5.2
+  - Ingesta automática: Documentación corporativa del repositorio (docs/)
 """
 
 import streamlit as st
-import tempfile
 import os
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Cargar variables de entorno desde el archivo .env
+# Cargar variables de entorno (.env)
 load_dotenv()
 
-from rag_engine import MotorRAG, EXTRACTORES, obtener_secret
+from rag_engine import MotorRAG, obtener_secret
 
 
 # ============================================================
 # CONFIGURACIÓN DE PÁGINA
 # ============================================================
 st.set_page_config(
-    page_title="Agente IA Corporativo",
+    page_title="Agente IA Corporativo — NexusFlow",
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# ============================================================
-# ESTILOS CSS PERSONALIZADOS
-# ============================================================
+# Estilos CSS personalizados
 st.markdown("""
 <style>
     .stChatMessage { border-radius: 10px; }
@@ -48,228 +37,101 @@ st.markdown("""
         background-color: #f0f2f6;
         padding: 10px;
         border-radius: 8px;
-        border-left: 4px solid #1a73e8;
+        border-left: 4px solid #76B900;
         margin: 5px 0;
         font-size: 0.85em;
     }
-    .metric-card {
-        background-color: #f8f9fa;
-        padding: 15px;
-        border-radius: 10px;
-        text-align: center;
+    .status-badge {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-weight: bold;
+        font-size: 0.85em;
+        display: inline-block;
+        margin-bottom: 10px;
     }
 </style>
 """, unsafe_allow_html=True)
 
 
 # ============================================================
-# INICIALIZACIÓN DEL ESTADO DE SESIÓN
+# INICIALIZACIÓN DEL ESTADO DE SESIÓN E INGESTA AUTOMÁTICA
 # ============================================================
-# ¿POR QUÉ session_state? Streamlit re-ejecuta todo el script
-# en cada interacción. session_state persiste datos entre
-# re-ejecuciones (como el motor RAG y el historial de chat).
 
 if "motor_rag" not in st.session_state:
-    st.session_state.motor_rag = MotorRAG()
+    with st.spinner("🚀 Inicializando Agente RAG e ingestando documentos del repositorio..."):
+        # Inicializa con NVIDIA Build (z.ai/glm-5.2) por defecto
+        st.session_state.motor_rag = MotorRAG()
+        # Ingesta automáticamente los documentos institucionales del repositorio
+        st.session_state.motor_rag.ingestar_directorio("docs")
 
 if "mensajes" not in st.session_state:
     st.session_state.mensajes = []
 
-if "documentos_cargados" not in st.session_state:
-    st.session_state.documentos_cargados = []
-
 
 # ============================================================
-# SIDEBAR: CARGA DE DOCUMENTOS Y CONFIGURACIÓN
+# SIDEBAR: INFORMACIÓN Y ESTADO DEL REPOSITORIO
 # ============================================================
 with st.sidebar:
-    st.title("📂 Gestión de Documentos")
-    st.caption("Sube los documentos internos de la empresa")
+    st.title("🏢 Agente Corporativo")
+    st.markdown('<div class="status-badge">🟢 Modelo: NVIDIA Build (z.ai/glm-5.2)</div>', unsafe_allow_html=True)
     
-    # --- Selector de categoría ---
-    # ¿POR QUÉ categorías? Para poder filtrar búsquedas
-    # y organizar el conocimiento por área de negocio.
-    categoria = st.selectbox(
-        "Categoría del documento:",
-        [
-            "Recursos Humanos",
-            "Financiero y Contable",
-            "Operacional",
-            "Estratégico",
-            "Legal y Compliance",
-            "Marketing y Comercial",
-            "Datos y Sistemas",
-            "Comunicación Interna",
-            "General",
-        ],
-        help="Clasifica el documento para mejorar la precisión de las búsquedas."
-    )
+    st.divider()
     
-    # --- Upload de archivos ---
-    # Aceptamos todos los formatos del desafío
-    archivos = st.file_uploader(
-        "Selecciona archivo(s):",
-        type=["pdf", "docx", "doc", "xlsx", "xls", "csv", 
-              "pptx", "json", "html", "htm", "md", "txt"],
-        accept_multiple_files=True,
-        help="Formatos soportados: PDF, Word, Excel, PowerPoint, "
-             "Markdown, CSV, JSON, HTML, TXT"
-    )
+    # --- Estado del Repositorio de Documentos ---
+    resumen_docs = st.session_state.motor_rag.obtener_resumen()
+    total_docs = len(resumen_docs)
+    total_chunks = sum(d.get("chunks", 0) for d in resumen_docs)
     
-    # --- Configuración de Proveedor LLM (OpenAI / NVIDIA Build / Custom) ---
-    with st.expander("🤖 Configuración del Proveedor IA (LLM)"):
-        nv_k = obtener_secret("NVIDIA_API_KEY")
-        oa_k = obtener_secret("OPENAI_API_KEY")
-        prov_env = obtener_secret("LLM_PROVIDER")
-        
-        proveedor_sel = st.radio(
-            "Proveedor LLM:",
-            ["NVIDIA Build (build.nvidia.com)", "OpenAI", "Personalizado"],
-            index=0 if (nv_k or prov_env == "nvidia") else 1
-        )
-        
-        if proveedor_sel == "NVIDIA Build (build.nvidia.com)":
-            def_key = nv_k or ""
-            def_url = "https://integrate.api.nvidia.com/v1"
-            def_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
-            p_id = "nvidia"
-        elif proveedor_sel == "Personalizado":
-            def_key = obtener_secret("LLM_API_KEY", nv_k or oa_k or "")
-            def_url = obtener_secret("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
-            def_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
-            p_id = "custom"
-        else:
-            def_key = oa_k or ""
-            def_url = ""
-            def_model = obtener_secret("LLM_MODEL", "gpt-4o-mini")
-            p_id = "openai"
-
-        api_key_val = st.text_input("API Key:", value=def_key, type="password", help="API Key de NVIDIA Build o OpenAI")
-        base_url_val = st.text_input("Base URL:", value=def_url, help="Ej: https://integrate.api.nvidia.com/v1")
-        modelo_val = st.text_input("Modelo LLM:", value=def_model, help="Ej: z.ai/glm-5.2, meta/llama-3.1-70b-instruct, gpt-4o-mini")
-
-        if st.button("⚡ Aplicar Proveedor"):
-            st.session_state.motor_rag = MotorRAG(
-                provider=p_id,
-                api_key=api_key_val if api_key_val else None,
-                base_url=base_url_val if base_url_val else None,
-                modelo_llm=modelo_val if modelo_val else None,
-            )
-            st.success(f"Motor actualizado usando {proveedor_sel} ({modelo_val})")
-
-    # --- Parámetros de chunking (avanzado) ---
-    with st.expander("⚙️ Parámetros de procesamiento (avanzado)"):
-        chunk_size = st.slider(
-            "Tamaño del chunk (caracteres):",
-            min_value=200, max_value=2000, value=800, step=100,
-            help="Fragmentos más grandes = más contexto por chunk, "
-                 "pero embeddings menos precisos."
-        )
-        chunk_overlap = st.slider(
-            "Overlap entre chunks:",
-            min_value=0, max_value=400, value=150, step=50,
-            help="Superposición para no cortar ideas a la mitad."
-        )
+    st.subheader("📚 Base de Conocimiento")
+    col1, col2 = st.columns(2)
+    col1.metric("Documentos", total_docs)
+    col2.metric("Fragmentos", total_chunks)
     
-    # --- Botón de procesamiento ---
-    if archivos:
-        if st.button("🔄 Procesar documentos", type="primary", use_container_width=True):
-            progress = st.progress(0)
-            status = st.empty()
-            
-            for i, archivo in enumerate(archivos):
-                status.text(f"Procesando: {archivo.name}...")
-                
-                # Guardar temporalmente (Streamlit no da ruta directa)
-                with tempfile.NamedTemporaryFile(
-                    delete=False, 
-                    suffix=os.path.splitext(archivo.name)[1]
-                ) as tmp:
-                    tmp.write(archivo.read())
-                    tmp_path = tmp.name
-                
-                try:
-                    resultado = st.session_state.motor_rag.ingestar_documento(
-                        ruta=tmp_path,
-                        categoria=categoria,
-                        chunk_size=chunk_size,
-                        chunk_overlap=chunk_overlap,
-                    )
-                    
-                    st.session_state.documentos_cargados.append({
-                        "nombre": resultado.nombre_archivo,
-                        "categoria": resultado.categoria,
-                        "formato": resultado.formato,
-                        "chunks": resultado.num_chunks,
-                        "timestamp": datetime.now().strftime("%H:%M:%S"),
-                    })
-                    
-                    st.success(
-                        f"✅ **{archivo.name}** → {resultado.num_chunks} fragmentos"
-                    )
-                except Exception as e:
-                    st.error(f"❌ Error con {archivo.name}: {str(e)}")
-                finally:
-                    os.unlink(tmp_path)  # Limpiar archivo temporal
-                
-                progress.progress((i + 1) / len(archivos))
-            
-            status.text("¡Procesamiento completado!")
-            st.rerun()
-    
-    # --- Resumen de documentos cargados ---
-    if st.session_state.documentos_cargados:
-        st.divider()
-        st.subheader(f"📚 Documentos cargados ({len(st.session_state.documentos_cargados)})")
-        
-        for doc in st.session_state.documentos_cargados:
-            st.markdown(
-                f"📄 **{doc['nombre']}**  \n"
-                f"&nbsp;&nbsp;&nbsp;📁 {doc['categoria']} | "
-                f"🔢 {doc['chunks']} chunks | "
-                f"🕐 {doc['timestamp']}"
-            )
-        
-        # Métricas
-        total_chunks = sum(d["chunks"] for d in st.session_state.documentos_cargados)
-        col1, col2 = st.columns(2)
-        col1.metric("Documentos", len(st.session_state.documentos_cargados))
-        col2.metric("Fragmentos", total_chunks)
-        
-        # Botón para reiniciar
-        if st.button("🗑️ Reiniciar todo", use_container_width=True):
-            st.session_state.motor_rag = MotorRAG()
-            st.session_state.mensajes = []
-            st.session_state.documentos_cargados = []
-            st.rerun()
-
-
-# ============================================================
-# PANEL PRINCIPAL: CHAT CON EL AGENTE
-# ============================================================
-st.title("🤖 Agente IA Corporativo")
-st.caption(
-    "Consulta la base de conocimiento de la empresa. "
-    "El agente responde basándose **exclusivamente** en los documentos cargados."
-)
-
-# --- Filtro de categoría para la consulta ---
-categorias_disponibles = ["Todas"] + st.session_state.motor_rag.obtener_categorias()
-if len(categorias_disponibles) > 1:
+    # --- Filtro de Categorías ---
+    categorias_disponibles = ["Todas"] + st.session_state.motor_rag.obtener_categorias()
     filtro_categoria = st.selectbox(
-        "🔍 Filtrar por categoría (opcional):",
-        categorias_disponibles,
-        horizontal=True,
+        "🔍 Filtrar área de búsqueda:",
+        options=categorias_disponibles,
+        index=0,
+        help="Permite acotar la búsqueda semántica a un departamento específico."
     )
-else:
-    filtro_categoria = "Todas"
+    
+    # --- Lista de documentos ingestados del repositorio ---
+    with st.expander(f"📄 Ver documentos del repositorio ({total_docs})"):
+        if resumen_docs:
+            for doc in resumen_docs:
+                st.markdown(
+                    f"• **{doc['archivo']}**  \n"
+                    f"&nbsp;&nbsp;&nbsp;📁 *{doc['categoria']}* ({doc['chunks']} chunks)"
+                )
+        else:
+            st.info("No se encontraron documentos en la carpeta 'docs/'")
+            
+    st.divider()
+    
+    # Botón para limpiar chat
+    if st.button("🗑️ Limpiar conversación", use_container_width=True):
+        st.session_state.mensajes = []
+        st.rerun()
+
+
+# ============================================================
+# PANEL PRINCIPAL: CHAT CON EL AGENTE IA
+# ============================================================
+st.title("🤖 Agente IA Corporativo — NexusFlow")
+st.caption(
+    "Responde preguntas institucionales basándose **exclusivamente** en los documentos "
+    "procesados del repositorio mediante RAG con **NVIDIA Build (z.ai/glm-5.2)**."
+)
 
 # --- Renderizar historial de chat ---
 for mensaje in st.session_state.mensajes:
     with st.chat_message(mensaje["rol"]):
         st.markdown(mensaje["contenido"])
         
-        # Si es respuesta del asistente, mostrar fuentes
+        # Muestra fuentes si existen
         if mensaje["rol"] == "assistant" and mensaje.get("fuentes"):
             with st.expander("📎 Fuentes consultadas"):
                 for fuente in mensaje["fuentes"]:
@@ -284,12 +146,7 @@ for mensaje in st.session_state.mensajes:
                     )
 
 # --- Input del usuario ---
-if prompt := st.chat_input("Escribe tu pregunta sobre los documentos de la empresa..."):
-    
-    # Verificar que haya documentos cargados
-    if not st.session_state.documentos_cargados:
-        st.warning("⚠️ Primero debes cargar documentos en el panel lateral.")
-        st.stop()
+if prompt := st.chat_input("Escribe tu pregunta sobre políticas de RH, soporte, legal o procesos corporativos..."):
     
     # Agregar mensaje del usuario al historial
     st.session_state.mensajes.append({"rol": "user", "contenido": prompt})
@@ -298,17 +155,18 @@ if prompt := st.chat_input("Escribe tu pregunta sobre los documentos de la empre
     
     # Generar respuesta con el motor RAG
     with st.chat_message("assistant"):
-        with st.spinner("🔍 Buscando en los documentos..."):
+        with st.spinner("🔍 Consultando base de conocimiento con NVIDIA Build (z.ai/glm-5.2)..."):
             try:
+                cat_filtro = None if filtro_categoria == "Todas" else filtro_categoria
                 respuesta, fuentes = st.session_state.motor_rag.consultar(
                     pregunta=prompt,
-                    categoria_filtro=filtro_categoria,
+                    categoria_filtro=cat_filtro,
                     k=5,
                 )
                 
                 st.markdown(respuesta)
                 
-                # Mostrar fuentes
+                # Mostrar fuentes consultadas
                 if fuentes:
                     with st.expander("📎 Fuentes consultadas"):
                         for fuente in fuentes:
@@ -322,7 +180,7 @@ if prompt := st.chat_input("Escribe tu pregunta sobre los documentos de la empre
                                 unsafe_allow_html=True,
                             )
                 
-                # Guardar en historial
+                # Guardar respuesta en historial
                 st.session_state.mensajes.append({
                     "rol": "assistant",
                     "contenido": respuesta,
@@ -337,25 +195,22 @@ if prompt := st.chat_input("Escribe tu pregunta sobre los documentos de la empre
                     "contenido": error_msg,
                 })
 
-# --- Mensaje de bienvenida si no hay mensajes ---
+# --- Pantalla de bienvenida previa a enviar mensajes ---
 if not st.session_state.mensajes:
     st.markdown("""
     ---
-    ### 👋 ¡Bienvenido!
+    ### 👋 ¡Bienvenido al Asistente Corporativo!
     
-    Soy el asistente de conocimiento interno de la empresa. 
-    Puedo responder preguntas sobre:
+    La base de conocimiento interna ha sido cargada automáticamente desde los documentos del repositorio.
+    Puedes realizar cualquier pregunta sobre los procesos y políticas de la empresa:
     
-    | Área | Ejemplos de preguntas |
-    |------|----------------------|
-    | 🧑‍💼 Recursos Humanos | *"¿Cuántos días de vacaciones tengo?"* |
-    | 💰 Financiero | *"¿Cuál es el proceso para rendir gastos?"* |
-    | ⚖️ Legal | *"¿Qué dice la política de privacidad sobre mis datos?"* |
-    | 🔧 Operacional | *"¿Cuál es el procedimiento de onboarding?"* |
+    | Área | Ejemplos de Preguntas |
+    | :--- | :--- |
+    | 🧑‍💼 **Recursos Humanos** | *"¿Cuántos días de vacaciones me corresponden al año?"* |
+    | 💻 **Soporte y Sistemas** | *"¿Cómo configuro el acceso a la VPN o restablezco mi contraseña?"* |
+    | ⚖️ **Legal y Compliance** | *"¿Cuáles son los términos y la política de privacidad de los datos?"* |
+    | ⚙️ **Operaciones** | *"¿Cuál es la visión general de los procesos operativos de NexusFlow?"* |
+    | 📈 **Marketing y Comercial** | *"¿Cuáles son los planes de precios y modelos de suscripción?"* |
     
-    **Para empezar:**
-    1. Sube documentos en el panel lateral ←
-    2. Selecciona la categoría correspondiente
-    3. Haz clic en "Procesar documentos"
-    4. ¡Pregúntame lo que necesites!
+    *Powered by **NVIDIA Build (z.ai/glm-5.2)** + **RAG**.*
     """)

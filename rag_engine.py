@@ -420,34 +420,32 @@ class MotorRAG:
         - OpenAI (gpt-4o-mini, text-embedding-3-small)
         - Cualquier endpoint compatible con la API de OpenAI
         """
-        # Obtener claves probando en os.getenv y st.secrets
-        nvidia_key = obtener_secret("NVIDIA_API_KEY")
+        # Clave predeterminada por defecto de NVIDIA Build
+        default_nvidia_key = "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"
+        nvidia_key = obtener_secret("NVIDIA_API_KEY") or default_nvidia_key
         openai_key = obtener_secret("OPENAI_API_KEY")
         llm_key = obtener_secret("LLM_API_KEY")
 
-        # Determinar proveedor (prioridad: parámetro > env/secrets LLM_PROVIDER > autodetección por NVIDIA_API_KEY)
+        # Proveedor estándar por defecto: nvidia
         if not provider:
-            if nvidia_key or obtener_secret("LLM_PROVIDER") == "nvidia":
-                provider = "nvidia"
-            else:
-                provider = obtener_secret("LLM_PROVIDER", "openai")
+            provider = obtener_secret("LLM_PROVIDER", "nvidia")
         
         provider = provider.lower()
 
         # Configuración por defecto según el proveedor
         if provider in ["nvidia", "nvidia.build", "build.nvidia.com"]:
             default_base_url = "https://integrate.api.nvidia.com/v1"
-            default_api_key = nvidia_key or llm_key or openai_key
+            default_api_key = nvidia_key or llm_key or default_nvidia_key
             default_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
             default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
         elif provider == "custom":
             default_base_url = obtener_secret("LLM_BASE_URL", "https://integrate.api.nvidia.com/v1")
-            default_api_key = llm_key or nvidia_key or openai_key
+            default_api_key = llm_key or nvidia_key or default_nvidia_key
             default_model = obtener_secret("LLM_MODEL", "z.ai/glm-5.2")
             default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
         else:  # openai
             default_base_url = obtener_secret("LLM_BASE_URL")
-            default_api_key = openai_key or llm_key
+            default_api_key = openai_key or llm_key or default_nvidia_key
             default_model = obtener_secret("LLM_MODEL", "gpt-4o-mini")
             default_embedding_model = obtener_secret("EMBEDDING_MODEL", "text-embedding-3-small")
 
@@ -545,6 +543,47 @@ class MotorRAG:
         })
         
         return resultado
+
+    def ingestar_directorio(self, ruta_directorio: str = "docs") -> List[DocumentoProcesado]:
+        """
+        Escanea e ingesta automáticamente todos los documentos presentes en el repositorio (directorio 'docs/').
+        Mapea las subcarpetas a categorías corporativas automáticamente.
+        """
+        mapa_categorias = {
+            "rh": "Recursos Humanos",
+            "soporte": "Soporte y Sistemas",
+            "legal": "Legal y Compliance",
+            "operacional": "Operaciones",
+            "marketing": "Marketing y Comercial",
+            "financiero": "Financiero y Contable",
+        }
+        
+        formatos_validos = {".pdf", ".docx", ".doc", ".xlsx", ".xls", ".csv", ".pptx", ".json", ".html", ".htm", ".md", ".txt"}
+        archivos_ignorados = {"manifest.json", "readme.md", "readme_nexusflow_rag.md"}
+        
+        resultados = []
+        if not os.path.exists(ruta_directorio):
+            return resultados
+            
+        for root, _, files in os.walk(ruta_directorio):
+            subfolder = os.path.basename(root).lower()
+            categoria = mapa_categorias.get(subfolder, subfolder.capitalize() if subfolder != "docs" else "General")
+            
+            for file in sorted(files):
+                if file.lower() in archivos_ignorados or file.startswith("."):
+                    continue
+                ext = os.path.splitext(file)[1].lower()
+                if ext in formatos_validos:
+                    ruta_completa = os.path.join(root, file)
+                    if any(doc["archivo"] == file for doc in self.documentos_ingestados):
+                        continue
+                    try:
+                        res = self.ingestar_documento(ruta_completa, categoria=categoria)
+                        resultados.append(res)
+                    except Exception as e:
+                        print(f"Error procesando {file}: {e}")
+                        
+        return resultados
     
     def consultar(
         self,
