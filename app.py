@@ -98,16 +98,28 @@ with st.sidebar:
         help="Permite acotar la búsqueda semántica a un departamento específico."
     )
     
-    # --- Lista de documentos ingestados del repositorio ---
-    with st.expander(f"📄 Ver documentos del repositorio ({total_docs})"):
-        if resumen_docs:
-            for doc in resumen_docs:
-                st.markdown(
-                    f"• **{doc['archivo']}**  \n"
-                    f"&nbsp;&nbsp;&nbsp;📁 *{doc['categoria']}* ({doc['chunks']} chunks)"
-                )
-        else:
-            st.info("No se encontraron documentos en la carpeta 'docs/'")
+    # --- Estructura de Subcarpetas de docs/ ---
+    st.subheader("📂 Estructura del Repositorio (`docs/`)")
+    
+    # Agrupar por subcarpeta
+    carpetas_dict = {}
+    for doc in resumen_docs:
+        sc = doc.get("subcarpeta", "General")
+        if sc not in carpetas_dict:
+            carpetas_dict[sc] = []
+        carpetas_dict[sc].append(doc)
+    
+    if carpetas_dict:
+        for subc, docs_list in carpetas_dict.items():
+            cat_nombre = docs_list[0]["categoria"] if docs_list else subc
+            with st.expander(f"📁 **{subc}/** — {cat_nombre} ({len(docs_list)})"):
+                for doc in docs_list:
+                    st.markdown(
+                        f"📄 **{doc['archivo']}**  \n"
+                        f"&nbsp;&nbsp;&nbsp;🔢 *{doc['chunks']} chunks* | *{doc['formato']}*"
+                    )
+    else:
+        st.info("No se encontraron documentos en la carpeta 'docs/'")
             
     st.divider()
     

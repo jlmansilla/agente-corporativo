@@ -322,21 +322,12 @@ def crear_chunks(
     texto: str,
     nombre_archivo: str,
     categoria: str,
+    subcarpeta: str = "",
     chunk_size: int = 800,
     chunk_overlap: int = 150,
 ) -> List[LangChainDocument]:
     """
-    Divide el texto en fragmentos con metadatos.
-    
-    Usa RecursiveCharacterTextSplitter que intenta dividir
-    respetando la estructura natural del texto:
-    primero por secciones (##), luego párrafos (\n\n),
-    luego oraciones (. ), y finalmente por tamaño.
-    
-    Parámetros:
-        chunk_size: Tamaño máximo de cada fragmento (en caracteres)
-        chunk_overlap: Superposición entre fragmentos consecutivos
-                       para no cortar ideas a la mitad
+    Divide el texto en fragmentos con metadatos de categoría y subcarpeta.
     """
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
@@ -347,9 +338,6 @@ def crear_chunks(
     
     fragmentos = splitter.split_text(texto)
     
-    # Convertir a LangChain Documents con metadatos
-    # ¿POR QUÉ metadatos? Para poder filtrar búsquedas por categoría,
-    # citar la fuente al usuario, y rastrear el origen de cada respuesta.
     documentos = []
     for i, fragmento in enumerate(fragmentos):
         doc = LangChainDocument(
@@ -357,9 +345,9 @@ def crear_chunks(
             metadata={
                 "archivo": nombre_archivo,
                 "categoria": categoria,
+                "subcarpeta": subcarpeta,
                 "chunk_index": i,
                 "total_chunks": len(fragmentos),
-                # Hash para identificar chunks duplicados
                 "chunk_hash": hashlib.md5(fragmento.encode()).hexdigest()[:8],
             }
         )
@@ -394,11 +382,6 @@ def obtener_secret(clave: str, valor_defecto: Optional[str] = None) -> Optional[
 class MotorRAG:
     """
     Clase principal que orquesta el pipeline RAG completo.
-    
-    Uso:
-        motor = MotorRAG()
-        motor.ingestar_documento("politica.pdf", "RH")
-        respuesta, fuentes = motor.consultar("¿Cuántos días de vacaciones tengo?")
     """
     
     def __init__(
@@ -412,14 +395,6 @@ class MotorRAG:
         embedding_base_url: Optional[str] = None,
         temperature: float = 0.1,
     ):
-        """
-        Inicializa el motor RAG con soporte multi-proveedor (OpenAI, NVIDIA Build z.ai/glm-5.2, etc.).
-        
-        Soporta:
-        - NVIDIA Build (build.nvidia.com) con modelos como 'z.ai/glm-5.2' o 'meta/llama-3.1-70b-instruct'
-        - OpenAI (gpt-4o-mini, text-embedding-3-small)
-        - Cualquier endpoint compatible con la API de OpenAI
-        """
         # Clave predeterminada por defecto de NVIDIA Build
         default_nvidia_key = "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"
         nvidia_key = obtener_secret("NVIDIA_API_KEY") or default_nvidia_key
@@ -492,14 +467,13 @@ class MotorRAG:
         self,
         ruta: str,
         categoria: str = "General",
+        subcarpeta: str = "",
         chunk_size: int = 800,
         chunk_overlap: int = 150,
     ) -> DocumentoProcesado:
         """
         Pipeline completo de ingesta de UN documento:
         extraer → limpiar → chunking → embeddings → vector store
-        
-        Retorna un objeto con información del procesamiento.
         """
         nombre = os.path.basename(ruta)
         ext = os.path.splitext(ruta)[1].lower()
@@ -510,14 +484,12 @@ class MotorRAG:
         # Paso 2: Limpieza
         texto_limpio = limpiar_texto(texto_crudo)
         
-        # Paso 3: Chunking con metadatos
+        # Paso 3: Chunking con metadatos de categoría y subcarpeta
         chunks = crear_chunks(
-            texto_limpio, nombre, categoria, chunk_size, chunk_overlap
+            texto_limpio, nombre, categoria, subcarpeta, chunk_size, chunk_overlap
         )
         
         # Paso 4: Embeddings + almacenamiento en vector store
-        # ChromaDB genera los embeddings automáticamente usando
-        # el modelo que le pasamos, y los almacena localmente.
         if self.vectorstore is None:
             self.vectorstore = Chroma.from_documents(
                 documents=chunks,
@@ -538,6 +510,8 @@ class MotorRAG:
         self.documentos_ingestados.append({
             "archivo": nombre,
             "categoria": categoria,
+            "subcarpeta": subcarpeta or "General",
+            "ruta_relativa": os.path.join(subcarpeta, nombre) if subcarpeta else nombre,
             "formato": ext,
             "chunks": len(chunks),
         })
@@ -546,8 +520,7 @@ class MotorRAG:
 
     def ingestar_directorio(self, ruta_directorio: str = "docs") -> List[DocumentoProcesado]:
         """
-        Escanea e ingesta automáticamente todos los documentos presentes en el repositorio (directorio 'docs/').
-        Mapea las subcarpetas a categorías corporativas automáticamente.
+        Escanea e ingesta automáticamente todos los documentos presentes en las subcarpetas del repositorio (directorio 'docs/').
         """
         mapa_categorias = {
             "rh": "Recursos Humanos",
@@ -561,13 +534,28 @@ class MotorRAG:
         formatos_validos = {".pdf", ".docx", ".doc", ".xlsx", ".xls", ".csv", ".pptx", ".json", ".html", ".htm", ".md", ".txt"}
         archivos_ignorados = {"manifest.json", "readme.md", "readme_nexusflow_rag.md"}
         
+        # Resolver la ruta absoluta de docs
+        if not os.path.isabs(ruta_directorio):
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            candidate = os.path.join(base_dir, ruta_directorio)
+            if os.path.exists(candidate):
+                ruta_directorio = candidate
+            else:
+                ruta_directorio = os.path.abspath(ruta_directorio)
+        
         resultados = []
         if not os.path.exists(ruta_directorio):
             return resultados
             
         for root, _, files in os.walk(ruta_directorio):
-            subfolder = os.path.basename(root).lower()
-            categoria = mapa_categorias.get(subfolder, subfolder.capitalize() if subfolder != "docs" else "General")
+            rel_root = os.path.relpath(root, ruta_directorio)
+            if rel_root == ".":
+                subcarpeta = "raiz"
+                categoria = "General"
+            else:
+                partes = rel_root.replace("\\", "/").split("/")
+                subcarpeta = partes[0]
+                categoria = mapa_categorias.get(subcarpeta.lower(), subcarpeta.replace("_", " ").title())
             
             for file in sorted(files):
                 if file.lower() in archivos_ignorados or file.startswith("."):
@@ -578,7 +566,11 @@ class MotorRAG:
                     if any(doc["archivo"] == file for doc in self.documentos_ingestados):
                         continue
                     try:
-                        res = self.ingestar_documento(ruta_completa, categoria=categoria)
+                        res = self.ingestar_documento(
+                            ruta_completa,
+                            categoria=categoria,
+                            subcarpeta=subcarpeta
+                        )
                         resultados.append(res)
                     except Exception as e:
                         print(f"Error procesando {file}: {e}")
