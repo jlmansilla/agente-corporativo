@@ -1,0 +1,836 @@
+{
+  "corpus_id": "nexusflow-demo-rag-es",
+  "name": "NexusFlow Technologies - Corpus SaaS de ejemplo",
+  "description": "Corpus sintético y coherente para pruebas de ingestión, chunking, búsqueda híbrida, filtros y generación con citas.",
+  "generated_at": "2026-07-21T16:16:00-04:00",
+  "locale": "es-CL",
+  "fictional": true,
+  "legal_notice": "Contenido ficticio; no constituye asesoramiento jurídico.",
+  "retrieval_guidance": {
+    "primary_key": "chunk_id",
+    "recommended_filters": [
+      "document_type",
+      "locale",
+      "version",
+      "effective_date",
+      "plan_id",
+      "category"
+    ],
+    "citation_format": "[chunk_id] título",
+    "conflict_policy": "Para precios usar PRICING-ES; para datos personales usar PRIVACY-ES; para uso contractual usar TERMS-ES; priorizar effective_date más reciente."
+  },
+  "chunks": [
+    {
+      "chunk_id": "KB-001",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Introducción y conceptos",
+      "text": "NexusFlow es una plataforma SaaS ficticia para planificar, ejecutar y supervisar trabajo en equipo. La jerarquía principal es: organización, espacio de trabajo, proyecto, tablero, tarea y subtarea. Cada tarea puede incluir responsable, fechas, prioridad, estado, etiquetas, dependencias, comentarios y archivos.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-002",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Primer acceso y creación del espacio",
+      "text": "Una persona crea una cuenta con correo y contraseña o mediante inicio de sesión corporativo cuando el plan lo permite. Después crea un espacio de trabajo, define nombre, zona horaria y preferencias de notificación. El propietario puede invitar miembros y asignar roles.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-003",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Roles y permisos",
+      "text": "Los roles estándar son propietario, administrador, miembro e invitado. El propietario controla facturación y eliminación del espacio; el administrador configura miembros y proyectos; el miembro crea y actualiza trabajo; el invitado accede solo a proyectos compartidos. Los permisos avanzados requieren Business o Enterprise.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-004",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Proyectos, vistas y flujo de trabajo",
+      "text": "Un proyecto puede visualizarse como lista, tablero Kanban, calendario o cronograma. Los estados predeterminados son Pendiente, En curso, Bloqueada y Completada. Los administradores pueden crear estados personalizados. Las dependencias permiten indicar que una tarea bloquea o espera a otra.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-005",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Automatizaciones",
+      "text": "Las reglas usan el patrón disparador-condición-acción. Ejemplo: cuando una tarea cambie a Completada, asignar una etiqueta y notificar al responsable del proyecto. Las ejecuciones se descuentan del límite mensual del plan y quedan registradas en el historial de automatización.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-006",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Notificaciones y colaboración",
+      "text": "Las menciones con @ generan una notificación. Cada persona puede elegir avisos en la aplicación y por correo. Los comentarios admiten respuestas, menciones y archivos. El historial de actividad muestra cambios relevantes del proyecto.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-007",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Archivos, búsqueda y exportación",
+      "text": "Los archivos se adjuntan a tareas y comentarios, sujetos a límites de almacenamiento. La búsqueda localiza proyectos, tareas, comentarios y archivos por palabras clave. Los proyectos pueden exportarse a CSV; los administradores pueden solicitar una exportación del espacio en formatos estructurados.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-008",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Integraciones y API",
+      "text": "Team y planes superiores pueden conectar calendarios, correo, repositorios de código y herramientas de mensajería compatibles. La API usa tokens personales o credenciales de aplicación según el plan. Los tokens deben almacenarse como secretos y pueden revocarse desde la configuración.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-009",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Seguridad y continuidad",
+      "text": "NexusFlow aplica control de acceso por rol, cifrado en tránsito y en reposo, copias de seguridad y registro de eventos administrativos. Business y Enterprise incluyen SSO; Enterprise puede incluir aprovisionamiento SCIM y condiciones adicionales de continuidad definidas por contrato.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-010",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Facturación, cambios y cancelación",
+      "text": "Los planes de pago se facturan por usuario activo y periodo contratado. Los cambios a un plan superior se aplican inmediatamente con prorrateo; las reducciones se aplican en la siguiente renovación. Al cancelar, el espacio mantiene acceso hasta terminar el periodo pagado y luego pasa a modo restringido antes de la eliminación programada.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-011",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Soporte e incidentes",
+      "text": "Las solicitudes se clasifican como consulta, problema, incidente o solicitud de cuenta. Deben incluir espacio, proyecto, pasos, resultado esperado, resultado obtenido y capturas sin datos sensibles. Los objetivos de respuesta dependen del plan y no equivalen a una resolución garantizada.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "KB-012",
+      "document_id": "PRODUCT-KB-ES",
+      "document_type": "product_knowledge_base",
+      "title": "Buenas prácticas para RAG",
+      "text": "Para recuperación semántica, use los identificadores KB, FAQ, PRICE, PRIV y TERMS como metadatos. Divida por títulos, preserve plan_id y locale, y filtre documentos legales por effective_date. Las respuestas deben citar el título y el identificador de la fuente.",
+      "related_ids": [],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "FAQ-001",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Cómo restablezco mi contraseña?",
+      "text": "En la pantalla de acceso selecciona “Olvidé mi contraseña”, introduce el correo de la cuenta y sigue el enlace recibido. Si usas SSO, contacta con el administrador de tu organización.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "cuenta"
+      }
+    },
+    {
+      "chunk_id": "FAQ-002",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "No recibo el correo de invitación.",
+      "text": "Revisa spam y confirma que el administrador usó la dirección correcta. Pídele que reenvíe la invitación. Si el dominio bloquea correos, autoriza el remitente de NexusFlow.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "acceso"
+      }
+    },
+    {
+      "chunk_id": "FAQ-003",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Puedo recuperar una tarea eliminada?",
+      "text": "Los administradores pueden restaurar elementos desde la papelera durante 30 días. Después de ese plazo, la recuperación no está garantizada.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "proyectos"
+      }
+    },
+    {
+      "chunk_id": "FAQ-004",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "Una automatización no se ejecutó.",
+      "text": "Verifica que la regla esté activa, que el disparador se haya producido, que las condiciones coincidan y que el espacio no haya agotado el límite mensual. Revisa el historial de automatización para ver el motivo.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "automatización"
+      }
+    },
+    {
+      "chunk_id": "FAQ-005",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Cómo cambio de plan?",
+      "text": "El propietario abre Configuración, Facturación y Plan. Las subidas se aplican inmediatamente con prorrateo; las bajadas se programan para la próxima renovación.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "facturación"
+      }
+    },
+    {
+      "chunk_id": "FAQ-006",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Cómo descargo una factura?",
+      "text": "El propietario puede descargar facturas desde Configuración, Facturación e Historial. Si la compra se realizó por contrato, debe usar el canal administrativo indicado en la orden de compra.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "facturación"
+      }
+    },
+    {
+      "chunk_id": "FAQ-007",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿NexusFlow ofrece SSO?",
+      "text": "Business y Enterprise admiten SSO mediante SAML u OIDC. Enterprise puede añadir SCIM según contrato.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "seguridad"
+      }
+    },
+    {
+      "chunk_id": "FAQ-008",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Cómo exporto mis proyectos?",
+      "text": "En el menú del proyecto selecciona Exportar y elige CSV. Para una exportación completa del espacio, un administrador puede iniciar una solicitud desde Configuración de datos.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "datos"
+      }
+    },
+    {
+      "chunk_id": "FAQ-009",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "Mi integración dejó de sincronizar.",
+      "text": "Comprueba que la conexión siga autorizada, que el token no haya caducado y que el usuario conserve permisos en ambos sistemas. Reautoriza la conexión y revisa el registro de errores.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "integraciones"
+      }
+    },
+    {
+      "chunk_id": "FAQ-010",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "La aplicación está lenta.",
+      "text": "Confirma el estado del servicio, prueba una ventana privada y desactiva extensiones del navegador. Registra hora, zona horaria, URL del proyecto y pasos reproducibles antes de contactar con soporte.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "rendimiento"
+      }
+    },
+    {
+      "chunk_id": "FAQ-011",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Cómo solicito acceso o eliminación de mis datos?",
+      "text": "Envía la solicitud desde el formulario de privacidad o a privacy@nexusflow.example. Verificaremos la identidad antes de procesarla y responderemos conforme a la normativa aplicable.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "privacidad"
+      }
+    },
+    {
+      "chunk_id": "FAQ-012",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Qué ocurre al cancelar?",
+      "text": "El acceso continúa hasta finalizar el periodo pagado. Después el espacio pasa a modo restringido y se conserva temporalmente para permitir exportación o reactivación antes de la eliminación programada.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "cancelación"
+      }
+    },
+    {
+      "chunk_id": "FAQ-013",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Qué debo incluir en un ticket?",
+      "text": "Incluye ID del espacio, proyecto afectado, fecha y hora con zona horaria, pasos, resultado esperado, resultado real y capturas sin contraseñas, tokens ni información sensible.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "soporte"
+      }
+    },
+    {
+      "chunk_id": "FAQ-014",
+      "document_id": "SUPPORT-FAQ-ES",
+      "document_type": "support_faq",
+      "title": "¿Cómo revoco un token de API?",
+      "text": "Abre Configuración personal, Desarrolladores y Tokens. Selecciona el token y elige Revocar. Las llamadas posteriores con ese token dejarán de funcionar.",
+      "related_ids": [
+        "KB-011"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "category": "api"
+      }
+    },
+    {
+      "chunk_id": "PRICE-FREE",
+      "document_id": "PRICING-ES",
+      "document_type": "pricing_catalog",
+      "title": "Plan Free",
+      "text": "Free: precio mensual 0 USD; precio anual 0 USD; usuarios Hasta 5; proyectos 3 activos; almacenamiento 1 GB; soporte Centro de ayuda; automatización 100 acciones/mes; API No; SSO No; SLA Sin SLA.",
+      "related_ids": [
+        "KB-010",
+        "TERMS-006"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "plan_id": "plan_free",
+        "currency": "USD"
+      }
+    },
+    {
+      "chunk_id": "PRICE-TEAM",
+      "document_id": "PRICING-ES",
+      "document_type": "pricing_catalog",
+      "title": "Plan Team",
+      "text": "Team: precio mensual 12 USD; precio anual 120 USD; usuarios Ilimitados; proyectos Ilimitados; almacenamiento 20 GB por espacio; soporte Correo, 2 días hábiles; automatización 2.000 acciones/mes; API Sí; SSO No; SLA 99,5 % objetivo.",
+      "related_ids": [
+        "KB-010",
+        "TERMS-006"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "plan_id": "plan_team",
+        "currency": "USD"
+      }
+    },
+    {
+      "chunk_id": "PRICE-BUSINESS",
+      "document_id": "PRICING-ES",
+      "document_type": "pricing_catalog",
+      "title": "Plan Business",
+      "text": "Business: precio mensual 24 USD; precio anual 240 USD; usuarios Ilimitados; proyectos Ilimitados; almacenamiento 100 GB por espacio; soporte Prioritario, 1 día hábil; automatización 10.000 acciones/mes; API Sí; SSO SAML/OIDC; SLA 99,9 % objetivo.",
+      "related_ids": [
+        "KB-010",
+        "TERMS-006"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "plan_id": "plan_business",
+        "currency": "USD"
+      }
+    },
+    {
+      "chunk_id": "PRICE-ENTERPRISE",
+      "document_id": "PRICING-ES",
+      "document_type": "pricing_catalog",
+      "title": "Plan Enterprise",
+      "text": "Enterprise: precio mensual por cotización USD; precio anual por cotización USD; usuarios Según contrato; proyectos Ilimitados; almacenamiento Personalizado; soporte Gestor y canal acordado; automatización Personalizado; API Sí; SSO SAML/OIDC + SCIM; SLA Contractual.",
+      "related_ids": [
+        "KB-010",
+        "TERMS-006"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21",
+        "plan_id": "plan_enterprise",
+        "currency": "USD"
+      }
+    },
+    {
+      "chunk_id": "PRIV-001",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Responsable y alcance",
+      "text": "NexusFlow Technologies es el nombre ficticio del proveedor de NexusFlow en este corpus. La política describe el tratamiento asociado a cuentas, uso del producto, soporte, sitios y comunicaciones.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-002",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Datos que se recopilan",
+      "text": "Se pueden tratar datos de cuenta y contacto; datos de organización y facturación; contenido incorporado a proyectos; eventos de uso y auditoría; datos técnicos del dispositivo y navegador; y comunicaciones con soporte.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-003",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Fuentes",
+      "text": "Los datos proceden de la persona usuaria, del administrador de su organización, del uso de NexusFlow y de integraciones autorizadas. No se deben conectar integraciones sin permisos adecuados.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-004",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Finalidades",
+      "text": "Los datos se usan para prestar y proteger el servicio, autenticar, gestionar facturación, responder soporte, detectar abuso, mantener registros, mejorar funciones y enviar comunicaciones permitidas.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-005",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Bases y roles",
+      "text": "La base jurídica depende del contexto y la ley aplicable. Para el contenido del cliente, la organización suele determinar fines y medios, mientras que el proveedor procesa según instrucciones contractuales. Esta asignación debe validarse legalmente.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-006",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Proveedores y divulgación",
+      "text": "Pueden intervenir proveedores de alojamiento, entrega de correo, pagos, analítica, soporte y seguridad bajo obligaciones contractuales. También puede divulgarse información por obligación legal, protección de derechos o una operación corporativa sujeta a salvaguardas.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-007",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Transferencias internacionales",
+      "text": "Si los datos se transfieren entre países, se aplicarán mecanismos y salvaguardas exigidos por la normativa aplicable y los contratos correspondientes.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-008",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Conservación",
+      "text": "Los datos se conservan mientras la cuenta esté activa y durante periodos adicionales necesarios para facturación, seguridad, cumplimiento, copias de respaldo y resolución de conflictos. Tras cancelar, puede existir una ventana temporal de exportación antes de la eliminación programada.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-009",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Derechos y solicitudes",
+      "text": "Según la jurisdicción, las personas pueden solicitar acceso, rectificación, eliminación, oposición, portabilidad o limitación. NexusFlow verificará la identidad y podrá coordinar la respuesta con la organización cliente.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-010",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Seguridad",
+      "text": "Se aplican medidas organizativas y técnicas como control de acceso por rol, cifrado en tránsito y en reposo, copias de seguridad, registro administrativo y gestión de incidentes. Ningún sistema puede garantizar riesgo cero.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-011",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Cookies y comunicaciones",
+      "text": "El sitio puede usar cookies necesarias para sesión y seguridad, además de preferencias o analítica cuando corresponda. Las comunicaciones comerciales incluirán opciones de baja cuando sean exigibles.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "PRIV-012",
+      "document_id": "PRIVACY-ES",
+      "document_type": "privacy_policy",
+      "title": "Contacto y cambios",
+      "text": "Las consultas se envían a privacy@nexusflow.example. Las versiones se controlan mediante version y effective_date. Los cambios materiales se comunicarán por canales apropiados.",
+      "related_ids": [
+        "TERMS-008"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-001",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Aceptación y ámbito",
+      "text": "Estos términos regulan el acceso y uso de NexusFlow, una plataforma SaaS de gestión de proyectos operada en este ejemplo por NexusFlow Technologies. Al crear una cuenta, aceptar una invitación o utilizar el servicio, la persona usuaria acepta estos términos y la Política de privacidad.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-002",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Cuenta y seguridad",
+      "text": "La persona usuaria debe proporcionar información correcta, mantener la confidencialidad de sus credenciales y notificar accesos no autorizados. No debe compartir contraseñas ni tokens. La organización cliente es responsable de administrar miembros, roles y permisos de su espacio.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-003",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Uso permitido",
+      "text": "NexusFlow puede utilizarse para coordinar proyectos, tareas, archivos, comentarios, automatizaciones e integraciones. Se prohíbe usar el servicio para infringir derechos, distribuir código malicioso, eludir controles de acceso, interferir con la plataforma o cargar contenido ilícito.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-004",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Contenido del cliente",
+      "text": "La organización cliente conserva los derechos sobre su contenido. Otorga a NexusFlow Technologies una autorización limitada para alojar, procesar, transmitir y respaldar dicho contenido con el único fin de prestar, proteger y mejorar el servicio conforme a la Política de privacidad.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-005",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Servicio, cambios y disponibilidad",
+      "text": "NexusFlow puede actualizar funciones, interfaces e integraciones. Se procurará comunicar cambios materiales. Las funciones beta pueden modificarse o retirarse y no están cubiertas por compromisos de nivel de servicio, salvo acuerdo escrito distinto.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-006",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Planes, facturación y renovación",
+      "text": "Los planes Free, Team, Business y Enterprise se describen en `03_Planes_Precios_NexusFlow.xlsx`. Los planes de pago se calculan por usuario activo y periodo contratado. Las subidas de plan se aplican de inmediato con prorrateo; las reducciones se aplican en la siguiente renovación. Los impuestos no están incluidos salvo indicación expresa. Enterprise se rige además por su contrato u orden de compra.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-007",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Cancelación y terminación",
+      "text": "El propietario puede cancelar desde la configuración de facturación. El acceso continúa hasta el final del periodo pagado; después, el espacio pasa a modo restringido. Puede existir un periodo temporal para exportar o reactivar antes de la eliminación programada. NexusFlow Technologies puede suspender el acceso ante riesgo de seguridad, incumplimiento material o exigencia legal.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-008",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Privacidad y datos",
+      "text": "El tratamiento de datos personales se describe en `08_Politica_Privacidad_NexusFlow.html`. La organización cliente determina el contenido que incorpora y debe contar con una base válida para tratarlo. Las solicitudes de derechos pueden enviarse a `privacy@nexusflow.example`.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-009",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Propiedad intelectual",
+      "text": "NexusFlow Technologies conserva los derechos sobre la plataforma, marca, documentación y tecnología subyacente. No se concede derecho a copiar, revender, descompilar o crear un servicio competidor mediante acceso no autorizado, salvo lo permitido por ley o contrato.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-010",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Garantías y responsabilidad",
+      "text": "El servicio se ofrece según el plan y contrato aplicables. En la medida permitida por la ley, no se garantiza que sea ininterrumpido o libre de errores. Cualquier limitación de responsabilidad, exclusión o indemnización debe adaptarse a la ley aplicable y al contrato comercial antes de uso real.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-011",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Ley aplicable y conflictos",
+      "text": "La ley aplicable, jurisdicción y mecanismo de resolución de conflictos deben definirse en el contrato real. Este corpus no fija una jurisdicción para evitar presentar una cláusula ficticia como válida.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    },
+    {
+      "chunk_id": "TERMS-012",
+      "document_id": "TERMS-ES",
+      "document_type": "terms_of_use",
+      "title": "Contacto y cambios",
+      "text": "Las consultas pueden enviarse a `legal@nexusflow.example`. Las versiones se identifican por `version` y `effective_date`. Cuando un cambio sea material, se comunicará por la aplicación, correo o canal contractual apropiado.",
+      "related_ids": [
+        "PRIVACY-ES"
+      ],
+      "metadata": {
+        "locale": "es-CL",
+        "version": "1.0",
+        "effective_date": "2026-07-21"
+      }
+    }
+  ]
+}
