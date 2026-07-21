@@ -30,10 +30,22 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 # --- LangChain: chunking, embeddings, vector store, LLM ---
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+try:
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+except ImportError:
+    from langchain.text_splitter import RecursiveCharacterTextSplitter
+
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_community.vectorstores import Chroma
-from langchain.schema import Document as LangChainDocument
+
+try:
+    from langchain_core.documents import Document as LangChainDocument
+except ImportError:
+    try:
+        from langchain.schema import Document as LangChainDocument
+    except ImportError:
+        from langchain.docstore.document import Document as LangChainDocument
+
 
 
 # ============================================================
